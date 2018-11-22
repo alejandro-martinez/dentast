@@ -1,4 +1,6 @@
 const express = require('express');
+
+const app = express();
 const path = require('path');
 const logger = require('morgan');
 const bodyParser = require('body-parser');
@@ -18,18 +20,15 @@ mongoose.connect('mongodb://localhost/dentast', {
     console.error(err);
   });
 
-const user = require('../controllers/user');
-
-const app = express();
-
 app.use(cors());
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: 'false' }));
 app.use(express.static(path.join(__dirname, 'dist')));
 
-// Users
-app.use('/user', user);
-
+// Load routes
+require('../controllers/patient')(app);
+require('../controllers/auth')(app);
+require('../controllers/medical-coverage')(app);
 
 module.exports = app;

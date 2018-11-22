@@ -1,26 +1,25 @@
 <template>
-    <nav class="navbar">
-    <div class="container-fluid">
-        <div class="navbar-header">
-        <a class="navbar-brand" href="#">Dentast</a>
-        </div>
-        <ul class="nav navbar-nav">
-            <li>
-                <router-link :to="{ name: 'User' }" tag="li">
-                    <span class="nav-label">Pacientes</span>
-                </router-link>
-            </li>
-            <li>
-                <router-link :to="{ name: 'Login' }" tag="li">
-                    <span class="nav-label">Salir</span>
-                </router-link>
-            </li>
-        </ul>
-    </div>
-    </nav>
+<header class="app-header navbar">
+    <a class="navbar-brand" href="#">
+        <img class="navbar-brand-full" src="../../assets/img/logo.jpg" alt="Dentast">
+    </a>
+    <ul class="nav">
+        <li class="nav-item px-3">
+            <router-link class="nav-link" :to="{ name: 'patient-list' }" tag="li">
+                <span class="nav-label">Pacientes</span>
+            </router-link>
+        </li>
+        <li class="nav-item px-3">
+            <router-link class="nav-link" :to="{ name: 'medical-coverage-list' }" tag="li">
+                <span class="nav-label">Obras sociales</span>
+            </router-link>
+        </li>
+    </ul>
+</header>
 </template>
 
 <script>
+
 export default {
   name: 'Menu',
   data() {
@@ -32,24 +31,21 @@ export default {
 </script>
 
 <style scoped>
-    ul {
-        list-style-type: none;
-        margin: 0;
-        padding: 0;
-        width: 200px;
-        background-color: #f1f1f1;
-    }
+.navbar-nav {
+  display: flex;
+  flex-direction: row;
+  padding-left: 0;
+  margin-bottom: 0;
+  list-style: none;
+}
 
-    li a {
-        display: block;
-        color: #000;
-        padding: 8px 16px;
-        text-decoration: none;
-    }
-
-    /* Change the link color on hover */
-    li a:hover {
-        background-color: #555;
-        color: white;
-    }
+.nav-link {
+    padding-right: 0;
+    padding-left: 0;
+}
+/* TODO fix this */
+.nav {
+    position: absolute;
+    left: 135px;
+}
 </style>

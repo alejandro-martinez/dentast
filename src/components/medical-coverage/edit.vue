@@ -1,36 +1,54 @@
 <template>
-    <div id="medicalCoverage-edition" class="col-3">
-        <div class="panel panel-info">
-            <div class="panel-heading">
-                <div class="panel-title">{{ obra.name }}</div>
+  <div class="row main-container">
+    <div id="medical-coverage-edition" class="col-12 panel panel-default">
+      <div class="card">
+        <div class="card-header">
+          <strong>Obra social</strong>
+          <small>edicion</small>
+        </div>
+        <div class="card-body">
+          <div class="form-group" :class="{'has-danger': errors.has('medical-coverage-name') }">
+            <label for="medical-coverage-name">Nombre</label>
+            <input id="medical-coverage-name" type="text" v-validate="'required'"
+              v-model="medicalCoverage.name" class="form-control" placeholder="Nombre">
+            <span class="text-danger"
+              v-show="errors.has('medical-coverage-name')">Nombre es requerido</span>
+          </div>
+          <div class="row">
+            <div class="col-1">
+              <button class="btn btn-primary" @click="save()">Guardar</button>
             </div>
+            <div class="col-2">
+              <button class="btn btn-secondary">Cancelar</button>
+            </div>
+          </div>
         </div>
-        <div class="row">
-          <button class="btn" @click="save()">Guardar</button>
-          <button class="btn">Cancelar</button>
-        </div>
+      </div>
     </div>
+  </div>
 </template>
 
 <script>
 /* eslint no-underscore-dangle: 0 */
-import { savemedicalCoverage, createmedicalCoverage, getmedicalCoverage } from './medicalCoverage-service';
+import { saveMedicalCoverage, createMedicalCoverage, getMedicalCoverage } from './medical-coverage-service';
 
 export default {
-  name: 'medicalCoverage',
+  name: 'MedicalCoverageEdit',
   data() {
     return {
       medicalCoverage: {
-        _id: '',
+        id: null,
         name: '',
       },
     };
   },
   created() {
-    const medicalCoverageId = this.$route.params.id;
-    get(medicalCoverageId).then((medicalCoverage) => {
-      this.medicalCoverage = medicalCoverage;
-    });
+    if (this.$route.params.id) {
+      getMedicalCoverage(this.$route.params.id).then((medicalCoverage) => {
+        this.medicalCoverage = medicalCoverage;
+        this.medicalCoverage.id = medicalCoverage._id;
+      });
+    }
   },
   methods: {
     isValid() {
@@ -38,12 +56,15 @@ export default {
     },
     save() {
       if (this.isValid()) {
-        if (this.medicalCoverage._id) {
-          save(this.medicalCoverage).then(() => {
-             this.$snotify.success('El registro se ha actualizado correctamente', { position: 'rightTop' });
+        if (this.medicalCoverage.id) {
+          saveMedicalCoverage(this.medicalCoverage).then(() => {
+            this.$snotify.success('La obra social se ha actualizado correctamente', { position: 'rightTop' });
           });
         } else {
-          create(this.medicalCoverage);
+          createMedicalCoverage(this.medicalCoverage).then((medicalCoverage) => {
+            this.$snotify.success('La obra social ha sido agregada correctamente', { position: 'rightTop' });
+            this.medicalCoverage.id = medicalCoverage._id;
+          });
         }
       }
     },

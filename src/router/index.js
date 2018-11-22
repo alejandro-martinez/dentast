@@ -1,33 +1,59 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import Login from '@/components/login';
-import Odontograma from '@/components/odontograma';
-import User from '@/components/user';
-import UserEdit from '@/components/user/edit';
+import Patient from '@/components/patient';
+import PatientEdit from '@/components/patient/edit';
+import MedicalCoverage from '@/components/medical-coverage';
+import MedicalCoverageEdit from '@/components/medical-coverage/edit';
 
 Vue.use(Router);
 
-export default new Router({
+// eslint-disable-next-line import/prefer-default-export
+export const router = new Router({
   routes: [
     {
-      path: '/',
-      name: 'Login',
-      component: Login,
+      path: '/patients',
+      name: 'patient-list',
+      component: Patient,
     },
     {
-      path: '/odontograma',
-      name: 'Odontograma',
-      component: Odontograma,
+      path: '/patients/create',
+      name: 'patient-create',
+      component: PatientEdit,
     },
     {
-      path: '/user',
-      name: 'User',
-      component: User,
+      path: '/patients/:id',
+      name: 'patient-edit',
+      component: PatientEdit,
     },
     {
-      path: '/user/:id',
-      name: 'UserEdit',
-      component: UserEdit,
+      path: '/medicalCoverages',
+      name: 'medical-coverage-list',
+      component: MedicalCoverage,
+    },
+    {
+      path: '/medicalCoverages/create',
+      name: 'medical-coverage-create',
+      component: MedicalCoverageEdit,
+    },
+    {
+      path: '/medicalCoverages/:id',
+      name: 'medical-coverage-edit',
+      component: MedicalCoverageEdit,
     },
   ],
 });
+
+
+// see https://router.vuejs.org/en/advanced/navigation-guards.html
+router.beforeEach((to, from, next) => {
+  const patientLogged = localStorage.getItem('patientLogged');
+  if (!patientLogged) {
+    if (to.path === '/') {
+      next('/');
+    }
+  } else if (to.path === '/') {
+    next('/patients');
+  }
+  return next();
+});
+

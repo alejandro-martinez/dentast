@@ -1,32 +1,44 @@
 <template>
-    <div id="login-wraper">
-      <form class="form login-form">
-          <legend>Ingreso</legend>
-          <div class="row body">
-              <div class="col-12">
-                <label>Usuario</label>
+  <div class="row justify-content-center">
+    <div class="col-4">
+      <div class="card-group">
+        <div class="card p-4">
+          <div class="card-body">
+            <h1>Ingreso</h1>
+            <p class="text-muted">Inicia sesion con tu cuenta</p>
+            <div class="input-group mb-3">
+              <div class="input-group-prepend">
+                <span class="input-group-text">
+                  <i class="icon-user"></i>
+                </span>
               </div>
-              <div class="col-12">
-                <input type="email">
+              <input class="form-control" type="text" placeholder="Usuario"
+                v-model="user.name">
+            </div>
+            <div class="input-group mb-4">
+              <div class="input-group-prepend">
+                <span class="input-group-text">
+                  <i class="icon-lock"></i>
+                </span>
               </div>
-              <div class="col-12">
-                <label>Clave</label>
+              <input class="form-control" type="password" placeholder="Clave"
+                v-model="user.password">
+            </div>
+            <div class="row">
+              <div class="col-6">
+                <button class="btn btn-primary px-4" @click="login" type="button">Ingresar</button>
               </div>
-              <div class="col-12">
-                <input type="password">
-              </div>
+            </div>
           </div>
-          <div class="footer">
-            <label class="checkbox inline">
-                <input type="checkbox" id="inlineCheckbox1" value="option1"> Recordar mis datos
-            </label>
-            <button type="button" @click="login" class="btn btn-success">Ingresar</button>
-          </div>
-      </form>
+        </div>
+      </div>
     </div>
+  </div>
 </template>
 
 <script>
+import { authenticateUser } from './login-service';
+
 export default {
   name: 'Login',
   data() {
@@ -39,7 +51,13 @@ export default {
   },
   methods: {
     login() {
-      this.$router.push('User');
+      authenticateUser(this.user).then((user) => {
+        localStorage.setItem('userLogged', user);
+        this.$emit('Login::loginResult');
+        this.$router.push('/user');
+      }, (err) => {
+        this.$snotify.error('Clave o usuario incorrectos', err);
+      });
     },
   },
 };

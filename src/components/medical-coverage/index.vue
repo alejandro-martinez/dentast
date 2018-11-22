@@ -1,24 +1,43 @@
 <template>
-  <div id="user-list" class="mainbox col-12">
-    <vue-scrolling-table
-      :scroll-horizontal="false"
-      :scroll-vertical="true"
-      :sync-header-scroll="true"
-      :sync-footer-scroll="true">
-    <template slot="thead">
-      <tr>
-        <th v-for="col in userColumns" :key="col">{{ col }}</th>
-      </tr>
-    </template>
-    <template slot="tbody">
-      <tr v-for="user in users" :key="user._id" @click="editUser(user)">
-        <td v-for="col in userColumnKeys" :key="col">
-          {{ user[col] }}
-        </td>
-      </tr>
-    </template>
-    </vue-scrolling-table>
+<div id="medical-coverage-list" class="mainbox col-12">
+  <div class="card">
+    <div class="card-header">
+      <div class="row">
+        <div class="col-2">
+          <i class="fa fa-align-justify"></i>Lista de obras sociales
+        </div>
+        <div class="col-2 offset-8">
+          <router-link class="btn btn-primary nav-link"
+            :to="{ name: 'patient-create' }" tag="li">
+                <span class="nav-label">Agregar nueva obra social</span>
+          </router-link>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <vue-scrolling-table
+        :scroll-horizontal="false"
+        :scroll-vertical="true"
+        :sync-header-scroll="true"
+        :sync-footer-scroll="true">
+      <template slot="thead">
+        <tr>
+          <th v-for="col in columns" :key="col">{{ col }}</th>
+        </tr>
+      </template>
+      <template slot="tbody">
+        <tr v-for="medicalCoverage in medicalCoverages"
+          :key="medicalCoverage._id"
+          @click="editMedicalCoverage(medicalCoverage)">
+          <td v-for="col in columnKeys" :key="col">
+            {{ medicalCoverage[col] }}
+          </td>
+        </tr>
+      </template>
+      </vue-scrolling-table>
+    </div>
   </div>
+</div>
 </template>
 
 <style scoped>
@@ -33,30 +52,32 @@ table tbody tr {
 <script>
 /* eslint no-underscore-dangle: 0 */
 import VueScrollingTable from 'vue-scrolling-table';
-import { getAllUsers } from './user-service';
+import { getAllMedicalCoverages } from './medical-coverage-service';
 
 export default {
-  name: 'User',
+  name: 'MedicalCoverage',
   components: {
     VueScrollingTable,
   },
   created() {
-    this.userColumns = ['Num afiliado', 'Nombre', 'Edad', 'Sexo', 'Obra social', 'Direccion', 'Localidad', 'Tel'];
-    this.userColumnKeys = ['afiliateNum', 'name', 'age', 'sex', 'medicalCoverage', 'address', 'city', 'sex', 'tel'];
-    getAllUsers().then((users) => {
-      this.$set(this, 'users', users);
+    this.columns = ['Nombre'];
+    this.columnKeys = ['name'];
+    getAllMedicalCoverages().then((medicalCoverages) => {
+      this.$set(this, 'medicalCoverages', medicalCoverages);
     });
   },
   data() {
     return {
-      users: [],
+      medicalCoverages: [],
     };
   },
   methods: {
-    editUser(user) {
+    editMedicalCoverage(medicalCoverage) {
       this.$router.push({
-        name: 'UserEdit',
-        params: { id: user._id },
+        name: 'medical-coverage-edit',
+        params: {
+          id: medicalCoverage._id,
+        },
       });
     },
   },
