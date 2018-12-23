@@ -2,6 +2,9 @@
 
 > Sistema para clinica odontologica
 
+## El paquete v-calendar-scheduler fue modificado localmente por lo que no esta incluido
+## en package.json y se mantiene una copia en los archivos del proyecto
+
 ## Build Setup
 
 ``` bash

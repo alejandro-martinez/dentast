@@ -14,7 +14,7 @@ mongoose.connect('mongodb://localhost/dentast', {
   promiseLibrary: bluebird,
 })
   .then(() => {
-    console.log('connection succesful');
+    console.log('Connected to dentast DB');
   })
   .catch((err) => {
     console.error(err);
@@ -30,5 +30,7 @@ app.use(express.static(path.join(__dirname, 'dist')));
 require('../controllers/patient')(app);
 require('../controllers/auth')(app);
 require('../controllers/medical-coverage')(app);
+require('../controllers/appointment')(app);
+require('../controllers/backup')(app);
 
 module.exports = app;

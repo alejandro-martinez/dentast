@@ -7,7 +7,23 @@ module.exports = (router) => {
       console.log(err);
       if (err) return next(err);
       return res.json(patients);
-    }).populate('medicalCoverage');
+    }).limit(req.params.limit).populate('medicalCoverage');
+  });
+
+  /* Search Patients */
+  router.get('/patient/search/:searchTerm', (req, res, next) => {
+    if (req.params.searchTerm) {
+      const nameRegexp = new RegExp(req.params.searchTerm, 'i');
+      Patient.find({ name: nameRegexp }, (err, patients) => {
+        if (err) return next(err);
+        return res.json(patients);
+      }).populate('medicalCoverage');
+    } else {
+      Patient.find((err, patients) => {
+        if (err) return next(err);
+        return res.json(patients);
+      }).populate('medicalCoverage');
+    }
   });
 
   /* GET SINGLE Patient BY ID  */
@@ -19,9 +35,12 @@ module.exports = (router) => {
   });
 
   /* SAVE Patient */
-  router.post('/patient', (req, res, next) => {
+  router.post('/patient', (req, res) => {
     Patient.create(req.body, (err, post) => {
-      if (err) return next(err);
+      if (err) {
+        res.status(500);
+        return res.json('Error al crear paciente');
+      }
       return res.json(post);
     });
   });
@@ -29,11 +48,11 @@ module.exports = (router) => {
   /* UPDATE Patient */
   router.put('/patient/:id', (req, res) => {
     Patient.findOneAndUpdate({ _id: req.params.id }, req.body,
-      { upsert: true, new: true, runValidators: true },
+      { runValidators: true },
       (err, patient) => {
         if (err) {
           res.status(500);
-          res.send('No se pudo editar el usuario. Revisa los datos e intenta nuevamente');
+          res.send({ err });
         } else {
           res.status(200);
         }

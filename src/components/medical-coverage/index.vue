@@ -1,21 +1,22 @@
 <template>
 <div id="medical-coverage-list" class="mainbox col-12">
-  <div class="card">
+  <div class="card card-accent-info">
     <div class="card-header">
-      <div class="row">
-        <div class="col-2">
-          <i class="fa fa-align-justify"></i>Lista de obras sociales
+      <div class="row align-items-center">
+        <div class="col-3">
+          <h4>Lista de obras sociales</h4>
         </div>
-        <div class="col-2 offset-8">
+        <div class="col-2 offset-7">
           <router-link class="btn btn-primary nav-link"
             :to="{ name: 'patient-create' }" tag="li">
-                <span class="nav-label">Agregar nueva obra social</span>
+                <span class="nav-label">Nueva obra social</span>
           </router-link>
         </div>
       </div>
     </div>
     <div class="card-body">
       <vue-scrolling-table
+        class="medicalCoverage"
         :scroll-horizontal="false"
         :scroll-vertical="true"
         :sync-header-scroll="true"
@@ -40,12 +41,21 @@
 </div>
 </template>
 
-<style scoped>
-table tbody {
-  max-height: 80vh !important;
-}
+<style>
 table tbody tr {
   cursor: pointer;
+}
+
+table.scrolling tbody {
+  height: 59vh !important;
+}
+
+table.scrolling.medicalCoverage th,
+table.scrolling.medicalCoverage td {
+  padding: 10px;
+  min-width: 100em !important;
+  max-width: 100em !important;
+  width: 100em !important;
 }
 </style>
 

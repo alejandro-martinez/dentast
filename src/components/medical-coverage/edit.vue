@@ -1,15 +1,14 @@
 <template>
   <div class="row main-container">
     <div id="medical-coverage-edition" class="col-12 panel panel-default">
-      <div class="card">
+      <div class="card card-accent-info">
         <div class="card-header">
-          <strong>Obra social</strong>
-          <small>edicion</small>
+          <h4>Edicion de obras sociales</h4>
         </div>
         <div class="card-body">
-          <div class="form-group" :class="{'has-danger': errors.has('medical-coverage-name') }">
+          <div class="form-group" :class="{'border-danger': errors.has('medical-coverage-name') }">
             <label for="medical-coverage-name">Nombre</label>
-            <input id="medical-coverage-name" type="text" v-validate="'required'"
+            <input name="medical-coverage-name" id="medical-coverage-name" type="text" v-validate="'required'"
               v-model="medicalCoverage.name" class="form-control" placeholder="Nombre">
             <span class="text-danger"
               v-show="errors.has('medical-coverage-name')">Nombre es requerido</span>
@@ -51,22 +50,21 @@ export default {
     }
   },
   methods: {
-    isValid() {
-      return true;
-    },
     save() {
-      if (this.isValid()) {
-        if (this.medicalCoverage.id) {
-          saveMedicalCoverage(this.medicalCoverage).then(() => {
-            this.$snotify.success('La obra social se ha actualizado correctamente', { position: 'rightTop' });
-          });
-        } else {
-          createMedicalCoverage(this.medicalCoverage).then((medicalCoverage) => {
-            this.$snotify.success('La obra social ha sido agregada correctamente', { position: 'rightTop' });
-            this.medicalCoverage.id = medicalCoverage._id;
-          });
+      this.$validator.validate().then((isValid) => {
+        if (isValid) {
+          if (this.medicalCoverage.id) {
+            saveMedicalCoverage(this.medicalCoverage).then(() => {
+              this.$snotify.success('La obra social se ha actualizado correctamente', { position: 'rightTop' });
+            });
+          } else {
+            createMedicalCoverage(this.medicalCoverage).then((medicalCoverage) => {
+              this.$snotify.success('La obra social ha sido agregada correctamente', { position: 'rightTop' });
+              this.medicalCoverage.id = medicalCoverage._id;
+            });
+          }
         }
-      }
+      });
     },
   },
 };

@@ -4,7 +4,6 @@ module.exports = (router) => {
   /* GET ALL UserS */
   router.get('/medical-coverage', (req, res, next) => {
     MedicalCoverage.find((err, medicalCoverages) => {
-      console.log(err);
       if (err) return next(err);
       return res.json(medicalCoverages);
     });

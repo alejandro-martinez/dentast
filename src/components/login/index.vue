@@ -1,8 +1,8 @@
 <template>
-  <div class="row justify-content-center">
+  <div class="row justify-content-center login">
     <div class="col-4">
       <div class="card-group">
-        <div class="card p-4">
+        <div class="card card-accent-info p-4">
           <div class="card-body">
             <h1>Ingreso</h1>
             <p class="text-muted">Inicia sesion con tu cuenta</p>
@@ -22,6 +22,7 @@
                 </span>
               </div>
               <input class="form-control" type="password" placeholder="Clave"
+                v-on:keyup.13="login"
                 v-model="user.password">
             </div>
             <div class="row">
@@ -36,6 +37,13 @@
   </div>
 </template>
 
+<style>
+  .login {
+    margin-top: 130px;
+  }
+</style>
+
+
 <script>
 import { authenticateUser } from './login-service';
 
@@ -49,15 +57,24 @@ export default {
       },
     };
   },
+  created() {
+    if (this.$route.name === 'logout') {
+      this.logout();
+    }
+  },
   methods: {
     login() {
       authenticateUser(this.user).then((user) => {
         localStorage.setItem('userLogged', user);
         this.$emit('Login::loginResult');
-        this.$router.push('/user');
+        this.$router.push('/patients');
       }, (err) => {
         this.$snotify.error('Clave o usuario incorrectos', err);
       });
+    },
+    logout() {
+      localStorage.setItem('userLogged', null);
+      this.$emit('Login::loginResult', false);
     },
   },
 };

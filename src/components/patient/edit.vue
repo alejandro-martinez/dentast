@@ -3,61 +3,73 @@
     <div class="col-12">
       <div class="row">
         <div id="patient-edition" class="col-12 pl-3">
-          <div class="card">
+          <div class="card card-accent-info">
             <div class="card-header">
-              <div class="row">
+              <div class="row align-items-center">
                 <div class="col-10">
-                  <i class="fa fa-align-justify"></i>Paciente
+                  <i class="fa fa-align-justify"></i>
+                  <h4> {{ pageTitle }}</h4>
                 </div>
                 <div class="col-2 text-right">
-                  <router-link class="btn btn-primary nav-link" :to="{ name: 'patient-create' }" tag="li">
-                      <span class="nav-label">Nuevo paciente</span>
-                  </router-link>
+                  <button class="btn btn-primary"
+                    @click="reloadComponent()">Nuevo paciente</button>
                 </div>
               </div>
             </div>
             <div class="card-body">
               <div class="row">
                 <div class="col-6">
-                  <div class="form-group" :class="{'has-danger': errors.has('patient-name') }">
+                  <div class="form-group" :class="{'border-danger': errors.has('patient-name') }">
                     <label for="patient-name">Apellido y nombres</label>
-                    <input id="patient-name" type="text" v-validate="'required'"
-                      v-model="patient.name" class="form-control" placeholder="Apellido y nombres">
-                    <span class="text-danger" v-show="errors.has('patient-name')">Nombre es requerido</span>
+                    <input id="patient-name" name="patient-name" type="text" v-validate="'required'"
+                      v-model="patient.name" class="form-control"
+                        placeholder="Apellido y nombres">
+                    <span class="text-danger" v-show="errors.has('patient-name')">
+                      Ingresa nombre y apellido del paciente</span>
                   </div>
 
                   <div class="form-group">
                     <label for="patient-name">Sexo</label>
-                    <div class="row">
+                    <div class="row pt-1 pb-1">
                       <div class="col-12">
                         <label class="radio-inline">
-                          <input type="radio" name="optradio" checked>Masculino
+                          <input type="radio" value="0" v-model="patient.sex">Masculino
                         </label>
                         <label class="radio-inline">
-                          <input type="radio" name="optradio">Femenino
+                          <input type="radio" value="1" v-model="patient.sex"> Femenino
                         </label>
                       </div>
                     </div>
                   </div>
 
                   <div class="form-group">
-                    <label for="patient-age">Edad</label>
-                    <input id="patient-age" type="text" v-validate="'required'"
-                      v-model="patient.age" class="form-control" placeholder="Edad">
-                    <span class="text-danger" v-show="errors.has('patient-age')">Edad es requerido</span>
+                    <label for="patient-birthdate">Fecha de nacimiento</label>
+                    <datepicker
+                      :language="es"
+                      id="patient-birthdate"
+                      class="form-control"
+                      placeholder="Fecha de nacimiento"
+                      v-model="patient.birthdate">
+                    </datepicker>
                   </div>
 
                   <div class="form-group">
-                    <label for="patient-address">Domicilio</label>
-                    <input id="patient-address" type="text" v-model="patient.address"
-                      class="form-control" placeholder="Direccion">
+                    <label for="patient-tel">Telefono</label>
+                    <input id="patient-tel" type="text" v-model="patient.tel"
+                      class="form-control" placeholder="Tel">
                   </div>
                 </div>
 
                 <div class="col-6">
+                   <div class="form-group">
+                    <label for="patient-address">Domicilio</label>
+                    <input id="patient-address" type="text" v-model="patient.address"
+                      class="form-control" placeholder="Direccion">
+                  </div>
                   <div class="form-group">
                     <label for="patient-address">Localidad</label>
-                    <input id="patient-address" type="text" v-model="patient.city" class="form-control"
+                    <input id="patient-address"
+                      type="text" v-model="patient.city" class="form-control"
                       placeholder="Localidad">
                   </div>
 
@@ -83,41 +95,131 @@
           </div>
         </div>
       </div>
-      <div class="row pl-0 pr-0">
-        <div class="col-4 pr-2">
-          <medical-records v-model="patient.medicalRecords"></medical-records>
+      <div class="row pl-0 pr-0"  v-if="patient._id">
+        <div class="col-5 pr-2">
+          <medical-records @save-patient="save()" v-model="patient.medicalRecords"></medical-records>
         </div>
-        <div id="patient-odontogram" class="col-8 pl-0">
-          <div class="card">
+        <div id="patient-odontogram" class="col-7 p-0 pr-3">
+          <div class="card card-accent-info">
             <div class="card-header">
-              <strong>Ficha dental</strong>
+              <div class="row">
+                <div class="col-4">
+                  <strong>Ficha dental</strong>
+                </div>
+                <div class="col-8 odontogram-options text-right">
+                  <label class="radio-inline">
+                    <input type="radio" value="0" name="optradio"
+                      checked v-model="currentAction">
+                      <span class="hand">☝</span>
+                  </label>
+                  <label class="radio-inline">
+                    <input type="radio" value="1" name="optradio"
+                      checked v-model="currentAction">
+                      <span class="deleted red">X</span>
+                  </label>
+                  <label class="radio-inline">
+                    <input type="radio" name="optradio" value="2"
+                       v-model="currentAction">
+                       <span class="deleted blue">X</span>
+                  </label>
+                  <label class="radio-inline">
+                    <input type="radio" name="optradio" value="3"
+                       v-model="currentAction">
+                       <span class="parallel-lines blue">=</span>
+                  </label>
+                </div>
+              </div>
             </div>
-            <div class="card-body">
-              <odontogram v-model="patient.odontogram"></odontogram>
+            <div class="card-body p-0"
+              :class="{
+                'hand': currentAction == '0',
+                'cursor-crosshair': currentAction !== '0'
+              }">
+              <odontogram :currentAction="currentAction" v-model="patient.odontogram"></odontogram>
+            </div>
+            <div class="card-footer p-0 pb-3">
+              <div class="col-6 pt-2">
+                <label> Num. dientes </label>
+              </div>
+              <div class="col-2">
+                <input type="number" class="form-control" v-model="patient.teethNum" />
+              </div>
             </div>
           </div>
         </div>
       </div>
       <div class="row mb-4">
-        <div class="col-1 offset-10">
-          <button class="btn btn-primary" @click="save()">Guardar</button>
-        </div>
-        <div class="col-1">
+        <div class="col-12 text-right">
+          <button class="btn btn-primary mr-2" @click="save()">Guardar</button>
           <button class="btn btn-secondary">Cancelar</button>
         </div>
       </div>
     </div>
   </div>
 </template>
+<style>
+.odontogram-options .hand {
+  font-size: 2.5em;
+}
+.cursor-crosshair {
+  cursor: crosshair;
+}
+.vdp-datepicker input {
+  border: none !important;
+}
 
+table tbody tr {
+  cursor: pointer;
+}
+
+table.scrolling tbody {
+  height: 43vh !important;
+}
+
+span.deleted {
+  display: inline-block;
+  font-size: 2.5em;
+}
+
+.radio-inline {
+  position: relative;
+}
+
+.odontogram-options .parallel-lines {
+  font-size: 3em !important;
+  position: absolute;
+  top: -25px;
+  left: 17px;
+}
+
+.odontogram-options {
+  margin-left: -20px;
+}
+</style>
 <script>
-/* eslint no-underscore-dangle: 0 */
+/* eslint-disable */
+import {es} from 'vuejs-datepicker/dist/locale'
 import { BasicSelect } from 'vue-search-select';
+import Datepicker from 'vuejs-datepicker';
 import { savePatient, createPatient, getPatient } from './patient-service';
 import Odontogram from './odontogram';
 import MedicalRecords from './medical-records';
 import { getAllMedicalCoverages } from '../medical-coverage/medical-coverage-service';
 import { toOptionFormat } from '../../helpers/basic-select';
+
+const defaultSchema = {
+  id: '',
+  name: '',
+  tel: '',
+  address: '',
+  city: '',
+  birthdate: new Date(),
+  sex: 0,
+  afiliateNum: '',
+  medicalCoverage: '',
+  odontogram: [],
+  medicalRecords: [],
+};
 
 export default {
   name: 'PatientEdit',
@@ -125,35 +227,36 @@ export default {
     Odontogram,
     MedicalRecords,
     BasicSelect,
+    Datepicker,
   },
   data() {
     return {
+      es: es,
       medicalCoverageList: [],
-      patient: {
-        _id: '',
-        name: '',
-        tel: '',
-        address: '',
-        city: '',
-        age: '',
-        sex: '',
-        afiliateNum: '',
-        medicalCoverage: '',
-        odontogram: [],
-      },
+      patient: defaultSchema,
+      currentAction: '0',
     };
   },
   created() {
     const patientId = this.$route.params.id;
-    getPatient(patientId).then((patient) => {
-      this.patient = patient;
-      this.patient.id = patient._id;
-    });
     getAllMedicalCoverages().then((medicalCoverageList) => {
       this.medicalCoverageList = medicalCoverageList;
     });
+    if (patientId) {
+      getPatient(patientId).then((patient) => {
+        this.patient = patient;
+        this.patient.id = patient._id;
+        console.log(this.patient);
+      });
+    } else {
+      const defaultOdontontogram = this.buildDefaultOdontogram();
+      this.$set(this.patient, 'odontogram', defaultOdontontogram);
+    }
   },
   computed: {
+    pageTitle() {
+      return this.patient._id ? 'Edicion de pacientes' : 'Nuevo paciente';
+    },
     medicalCoverageOptions() {
       return this.medicalCoverageList.map(toOptionFormat);
     },
@@ -170,22 +273,66 @@ export default {
     },
   },
   methods: {
-    isValid() {
-      return this.errors.items.length === 0;
+    buildOdontogramRow(init, end, defaultOdontontogram) {
+      for (let i = init; i < end; i++) {
+        defaultOdontontogram.push({
+          nro: i,
+          top: false,
+          center: false,
+          bottom: false,
+          right: false,
+          left: false,
+        });
+      }
+      return defaultOdontontogram;
+    },
+    buildDefaultOdontogram() {
+      const defaultOdontontogram = [];
+      this.buildOdontogramRow(11, 19, defaultOdontontogram);
+      this.buildOdontogramRow(21, 29, defaultOdontontogram);
+      this.buildOdontogramRow(31, 39, defaultOdontontogram);
+      this.buildOdontogramRow(41, 49, defaultOdontontogram);
+      this.buildOdontogramRow(51, 56, defaultOdontontogram);
+      this.buildOdontogramRow(61, 66, defaultOdontontogram);
+      this.buildOdontogramRow(71, 76, defaultOdontontogram);
+      this.buildOdontogramRow(81, 86, defaultOdontontogram);
+
+      return defaultOdontontogram;
+    },
+    preProcess() {
+      const clone = Object.assign({}, this.patient);
+      if (!clone.medicalCoverage) {
+        delete clone.medicalCoverage;
+      }
+      clone.medicalRecords = clone.medicalRecords.map((m) => {
+        delete m.date;
+        return m;
+      });
+      return clone;
+    },
+    reloadComponent() {
+      this.patient = defaultSchema;
+    },
+    success() {
+      this.$snotify.success('El paciente se ha guardado correctamente', { position: 'rightTop' });
+    },
+    failed(err) {
+      this.$snotify.error(`Error al guardar: ${err}`, { position: 'rightTop' });
     },
     save() {
-      if (this.isValid()) {
-        if (this.patient.id) {
-          savePatient(this.patient).then(() => {
-            this.$snotify.success('El paciente se ha actualizado correctamente', { position: 'rightTop' });
-          });
-        } else {
-          createPatient(this.patient).then((patient) => {
-            this.$snotify.success('El paciente ha sido agregado correctamente', { position: 'rightTop' });
-            this.patient.id = patient._id;
-          });
+      this.$validator.validate().then(isValid => {
+        if (isValid) {
+          const patient = this.preProcess();
+          if (patient.id) {
+            savePatient(patient).then(this.success, this.failed);
+          } else {
+            createPatient(patient).then((patient) => {
+              this.success();
+              this.patient.id = patient._id;
+            });
+          }
         }
-      }
+      });
     },
     onMedicalCoverageSelected(selected) {
       // Using $set cause computed property is not triggering the change

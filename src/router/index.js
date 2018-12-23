@@ -4,6 +4,9 @@ import Patient from '@/components/patient';
 import PatientEdit from '@/components/patient/edit';
 import MedicalCoverage from '@/components/medical-coverage';
 import MedicalCoverageEdit from '@/components/medical-coverage/edit';
+import Appointment from '@/components/appointment';
+import Login from '@/components/login';
+import Backup from '@/components/backup';
 
 Vue.use(Router);
 
@@ -40,14 +43,29 @@ export const router = new Router({
       name: 'medical-coverage-edit',
       component: MedicalCoverageEdit,
     },
+    {
+      path: '/appointments',
+      name: 'appointment-list',
+      component: Appointment,
+    },
+    {
+      path: '/backup',
+      name: 'backup',
+      component: Backup,
+    },
+    {
+      path: '/logout',
+      name: 'logout',
+      component: Login,
+    },
   ],
 });
 
 
 // see https://router.vuejs.org/en/advanced/navigation-guards.html
 router.beforeEach((to, from, next) => {
-  const patientLogged = localStorage.getItem('patientLogged');
-  if (!patientLogged) {
+  const userLogged = localStorage.getItem('userLogged');
+  if (!userLogged) {
     if (to.path === '/') {
       next('/');
     }
