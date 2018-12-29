@@ -41,7 +41,6 @@ export default {
 
     if ( propsData.enableTimeInputs )
         defaultFields.splice(1, 0, {
-            label: 'Horario',
             fields: [
                 {
                     name: 'startTime',

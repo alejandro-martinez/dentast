@@ -28,9 +28,10 @@ module.exports = (router) => {
   /* UPDATE User */
   router.put('/medical-coverage/:id', (req, res) => {
     MedicalCoverage.findOneAndUpdate({ _id: req.params.id }, req.body,
-      { upsert: true, new: true, runValidators: true },
+      { runValidators: true },
       (err, medicalCoverage) => {
         if (err) {
+          console.log(err);
           res.status(500);
           res.send('No se pudo editar el usuario. Revisa los datos e intenta nuevamente');
         } else {

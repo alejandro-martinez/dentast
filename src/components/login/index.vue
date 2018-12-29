@@ -73,7 +73,7 @@ export default {
       });
     },
     logout() {
-      localStorage.setItem('userLogged', null);
+      localStorage.removeItem('userLogged');
       this.$emit('Login::loginResult', false);
     },
   },

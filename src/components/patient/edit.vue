@@ -95,7 +95,7 @@
           </div>
         </div>
       </div>
-      <div class="row pl-0 pr-0"  v-if="patient._id">
+      <div class="row pl-0 pr-0"  v-if="patient.id">
         <div class="col-5 pr-2">
           <medical-records @save-patient="save()" v-model="patient.medicalRecords"></medical-records>
         </div>

@@ -8,7 +8,7 @@
         </div>
         <div class="col-2 offset-7">
           <router-link class="btn btn-primary nav-link"
-            :to="{ name: 'patient-create' }" tag="li">
+            :to="{ name: 'medical-coverage-create' }" tag="li">
                 <span class="nav-label">Nueva obra social</span>
           </router-link>
         </div>

@@ -29,7 +29,7 @@
           </router-link>
       </li>
     </ul>
-    <div class="row m-0 p-0">
+    <div class="row mr-2" v-if="isLoggedIn">
       <div class="col-12">
         <router-link class="nav-link" :to="{ name: 'logout' }" tag="li">
           <span class="nav-label">Salir</span>
@@ -51,6 +51,9 @@ export default {
   computed: {
     activeRoute() {
       return this.$route.name;
+    },
+    isLoggedIn() {
+      return localStorage.getItem('userLoggedIn') || false;
     },
   },
 };
