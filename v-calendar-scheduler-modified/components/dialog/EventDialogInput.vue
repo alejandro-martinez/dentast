@@ -13,24 +13,39 @@
         </template>
         <template v-else>
             <label :for="field.name" v-if="field.showLabel !== false">{{ fieldLabel }}</label>
+            <datepicker
+              v-if='field.type === "date"'
+              :language="es"
+              class="form-control"
+              placeholder="Fecha"
+              :required="field.required"
+              :oninvalid="field.onInvalid"
+              @input="onInput"
+              :value="newValue">
+            </datepicker>
             <input
-                    @input="onInput"
-                    :value="newValue"
-                    :placeholder="fieldLabel"
-                    :type="field.type ? field.type : 'text'"
-                    :required="field.required"
-                    :oninvalid="field.onInvalid"
-                    :id="field.name">
+              v-if='field.type !== "date"'
+              @input="onInput"
+              :value="newValue"
+              :placeholder="fieldLabel"
+              :type="field.type ? field.type : 'text'"
+              :required="field.required"
+              :oninvalid="field.onInvalid"
+              :id="field.name">
         </template>
     </div>
 </template>
 
 <script>
-
+    import Datepicker from 'vuejs-datepicker';
+    import {es} from 'vuejs-datepicker/dist/locale'
     import { EventBus } from '../EventBus';
     import moment from 'moment';
     export default {
         name: "EventDialogInput",
+        components: {
+          Datepicker,
+        },
         props: {
             value: [ Date, String, Number, Boolean, Array, Object ],
             field: {
@@ -40,7 +55,8 @@
         },
         data() {
             return {
-                newValue: this.value,
+              es: es,
+              newValue: this.value,
             }
         },
         beforeMount() {
@@ -57,7 +73,10 @@
         methods: {
             onInput(event) {
                 this.$nextTick(() => {
+                  if (event.target) {
                     this.newValue = event.target.value;
+                  }
+                  console.log(event);
                 });
             }
         },
@@ -111,6 +130,11 @@
     }
 </script>
 
-<style scoped>
-
+<style>
+.vdp-datepicker {
+  border: none !important;
+}
+.vdp-datepicker input {
+  margin: 0 -13px;
+}
 </style>
