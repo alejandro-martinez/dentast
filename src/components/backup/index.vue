@@ -32,7 +32,7 @@
       </div>
       <div class="card-body">
         <form id="uploadForm" enctype="multipart/form-data" @change="handleFileUpload()">
-          <input type="file" class="d-none" id="file" name="file" ref="file">
+          <input type="file" class="d-none" id="file" name="file" ref="file" accept=".zip">
         </form>
         <button title="Restaurar una copia de seguridad subiendo un archivo desde tu PC" type="button" @click="$refs.file.click()" class="btn btn-primary">Importar copia de seguridad</button>
         <button title="Restaurar una copia de seguridad desde la lista visible" v-if="backupList.length > 0" type="button" class="btn btn-primary" @click="restoreBackup()">Restaurar copia</button>

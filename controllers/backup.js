@@ -1,3 +1,4 @@
+const _ = require('lodash');
 const moment = require('moment');
 const path = require('path');
 const zip = require('express-zip');
@@ -50,7 +51,7 @@ module.exports = (router) => {
   router.delete('/backup', (req, res) => {
     console.log(req.query);
     const backups = getDirectories(BACKUP_FOLDER);
-    if (req.query && req.query.name) {
+    if (_.get(req, 'query.name')) {
       if (backups.find(name => name === req.query.name)) {
         rimraf(req.query.name, () => res.status(200).end());
       }
@@ -65,7 +66,7 @@ module.exports = (router) => {
       if (err) {
         res.status(500).json({ err: `Ocurrio un error al subir la copia de seguridad: ${err}` });
       }
-      if (fileUploaded.file) {
+      if (_.get(fileUploaded, 'file')) {
         const dateName = moment().format('DD_MM_YY.HH.mm.ss');
         const outputBackupFolder = `dentast_${dateName}`;
         const backupOutputFolder = `${BACKUP_FOLDER}/${outputBackupFolder}`;

@@ -72,6 +72,9 @@ router.beforeEach((to, from, next) => {
   } else if (to.path === '/') {
     next('/appointments');
   }
+  if (to.path.match('logout')) {
+    localStorage.removeItem('userLoggedIn');
+  }
   return next();
 });
 

@@ -57,11 +57,6 @@ export default {
       },
     };
   },
-  created() {
-    if (this.$route.name === 'logout') {
-      this.logout();
-    }
-  },
   methods: {
     login() {
       authenticateUser(this.user).then((user) => {
@@ -71,10 +66,6 @@ export default {
       }, (err) => {
         this.$snotify.error('Clave o usuario incorrectos', err);
       });
-    },
-    logout() {
-      localStorage.removeItem('userLogged');
-      this.$emit('Login::loginResult', false);
     },
   },
 };
