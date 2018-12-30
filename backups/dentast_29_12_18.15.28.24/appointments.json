@@ -1,0 +1,11 @@
+[
+  {
+    "_id": "5c27b2f66a73f234d387bc86",
+    "date": "2018-12-24T03:00:00.000Z",
+    "startTime": "10:00",
+    "endTime": "11:00",
+    "patient": "Pablo Notti",
+    "patientId": "5c27b2e16a73f234d387bc51",
+    "__v": 0
+  }
+]
