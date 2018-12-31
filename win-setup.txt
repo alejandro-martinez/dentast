@@ -11,6 +11,7 @@
 	https://docs.mongodb.com/v3.6/tutorial/install-mongodb-on-windows/
 
 # Instalar AlwaysUp para correr la aplicacion node automaticamente al iniciar PC
+	Buscar en mi unidad de Drive
 
 # Descargar aplicacion dentast
 	url: https://github.com/alejandro-martinez/dentast

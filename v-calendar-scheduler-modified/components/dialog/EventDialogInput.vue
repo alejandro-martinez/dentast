@@ -76,7 +76,6 @@
                   if (event.target) {
                     this.newValue = event.target.value;
                   }
-                  console.log(event);
                 });
             }
         },

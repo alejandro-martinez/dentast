@@ -328,13 +328,12 @@
         },
         computed: {
             newEvents() {
-              
-                console.log(this.events.map(e => {
-                    return new Event(e).bindGetter('displayText', this.eventDisplay);
-                }));
+              if (Array.isArray(this.events)) {
                 return this.events.map(e => {
                     return new Event(e).bindGetter('displayText', this.eventDisplay);
                 });
+              }
+              return [];
             },
             isPrevAllowed() {
                 if ( this.minDate ) {

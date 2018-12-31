@@ -51,23 +51,25 @@
         },
         beforeMount() {
             let plainEvent = {};
-            this.fields.map( field => {
-                if ( !field.fields )
-                    plainEvent[field.name] = field.value;
-                else {
-                    const fields = field.fields;
-                    fields.map( field => {
-                        if ( field.type === 'time' ) {
-                            plainEvent[field.name] = field.value ? moment(field.value, 'HH:mm') : null
-                        } else
-                            plainEvent[field.name] = field.value;
-                    })
-                }
-            });
+            if (this.fields) {
+                this.fields.map( field => {
+                    if ( !field.fields )
+                        plainEvent[field.name] = field.value;
+                    else {
+                        const fields = field.fields;
+                        fields.map( field => {
+                            if ( field.type === 'time' ) {
+                                plainEvent[field.name] = field.value ? moment(field.value, 'HH:mm') : null
+                            } else
+                                plainEvent[field.name] = field.value;
+                        })
+                    }
+                });
 
-            this.event = new Event(plainEvent);
-            //  Insert the Dialog component in body tag
-            document.body.appendChild(this.$el);
+                this.event = new Event(plainEvent);
+                //  Insert the Dialog component in body tag
+                document.body.appendChild(this.$el);
+            }
         },
         mounted() {
             this.isActive = true;
