@@ -3,12 +3,12 @@
     <div class="card card-accent-info">
       <div class="card-header">
         <div class="row align-items-center">
-          <div class="col-2">
+          <div class="col-3">
             <i class="fa fa-align-justify"></i>
             <h4>Lista de pacientes</h4>
           </div>
-          <div class="col-2 offset-8">
-            <router-link class="btn btn-primary nav-link"
+          <div class="col-3 offset-6 text-right">
+            <router-link class="btn btn-primary"
               :to="{ name: 'patient-create' }" tag="li">
                   <span class="nav-label">Agregar nuevo paciente</span>
             </router-link>
@@ -77,8 +77,8 @@
 
 .table.scrolling th.Numafiliado,
 .table.scrolling td.afiliateNum {
-  min-width: 8em;
-  width: 8em;
+  min-width: 9em;
+  width: 9em;
 }
 
 .search {
@@ -159,13 +159,16 @@ export default {
   },
   computed: {
     patientList() {
-      const patientRecords = this.patients.map((p) => {
-        if (p.medicalCoverage) {
-          p.medicalCoverage = p.medicalCoverage.name;
-        }
-        return p;
-      });
-      return patientRecords;
+      if (this.patients) {
+        const patientRecords = this.patients.map((p) => {
+          if (p.medicalCoverage) {
+            p.medicalCoverage = p.medicalCoverage.name;
+          }
+          return p;
+        });
+        return patientRecords;
+      }
+      return [];
     },
   },
   methods: {
@@ -183,7 +186,9 @@ export default {
     editPatient(patient) {
       this.$router.push({
         name: 'patient-edit',
-        params: { id: patient._id },
+        params: {
+          id: patient._id,
+        },
       });
     },
   },

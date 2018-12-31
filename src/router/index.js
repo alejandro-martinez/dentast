@@ -7,8 +7,11 @@ import MedicalCoverageEdit from '@/components/medical-coverage/edit';
 import Appointment from '@/components/appointment';
 import Login from '@/components/login';
 import Backup from '@/components/backup';
+import NProgress from 'nprogress';
+import '../../node_modules/nprogress/nprogress.css';
 
 Vue.use(Router);
+Vue.use(NProgress);
 
 // eslint-disable-next-line import/prefer-default-export
 export const router = new Router({
@@ -61,9 +64,13 @@ export const router = new Router({
   ],
 });
 
+router.afterEach(() => {
+  NProgress.done(true);
+});
 
 // see https://router.vuejs.org/en/advanced/navigation-guards.html
 router.beforeEach((to, from, next) => {
+  NProgress.start();
   const userLogged = localStorage.getItem('userLogged');
   if (!userLogged) {
     if (to.path === '/') {

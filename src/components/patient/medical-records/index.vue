@@ -43,6 +43,9 @@
           <button class="btn btn-primary" @click="saveRecord">
             Guardar
           </button>
+          <button class="btn btn-secondary" @click="closeModal">
+            Cancelar
+          </button>
         </div>
       </modal>
     <div class="card card-accent-info">
@@ -138,11 +141,14 @@ export default {
   },
   computed: {
     medicalRecords() {
-      const formattedRecords = this.records.map((r) => {
-        r.date = moment(r.date).format('DD-MM-YYYY');
-        return r;
-      });
-      return formattedRecords;
+      if (this.records) {
+        const formattedRecords = this.records.map((r) => {
+          r.date = moment(r.date).format('DD-MM-YYYY');
+          return r;
+        });
+        return formattedRecords;
+      }
+      return [];
     },
   },
   methods: {
@@ -164,6 +170,9 @@ export default {
     editRecord(r) {
       this.record = r;
       this.showMedicalRecordEditPopup = true;
+    },
+    closeModal() {
+      this.showMedicalRecordEditPopup = false;
     },
   },
 };

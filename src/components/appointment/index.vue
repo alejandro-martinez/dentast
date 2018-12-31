@@ -26,7 +26,7 @@
               all_day: 'Todo el día'
           }"
           :initialDate="currentDate"
-          :time-range="[9,21]"
+          :time-range="[9,20]"
           :available-views="['week', 'day']"
           initial-view="week"
           :show-time-marker="true"
@@ -118,16 +118,17 @@ export default {
     },
     eventDisplay: event => event.patient,
     eventDeleted(_id) {
-      deleteAppointment(_id).then(() => {
-        this.$snotify.success('El turno se ha borrado correctamente', { position: 'rightTop' });
-        // Reload all
-        this.loadAllAppointments();
-      }, (err) => {
-        this.$snotify.error(`Error al borrar turno: ${JSON.stringify(err)}`, { position: 'rightTop' });
-      });
+      if (_id) {
+        deleteAppointment(_id).then(() => {
+          this.$snotify.success('El turno se ha borrado correctamente', { position: 'rightTop' });
+          // Reload all
+          this.loadAllAppointments();
+        }, (err) => {
+          this.$snotify.error(`Error al borrar turno: ${JSON.stringify(err)}`, { position: 'rightTop' });
+        });
+      }
     },
     eventUpdated(event) {
-      console.log('event updated', event);
       if (event.patientId) {
         const appointment = this.preProcessAppointment(event);
         if (appointment._id) {

@@ -41,7 +41,7 @@ module.exports = (router) => {
   router.get('/backup/download/:name', (req, res) => {
     const zipFilename = req.params.name;
     const zipContainer = zipFilename.replace('.zip', '');
-    const zipSourcePath = `${BACKUP_FOLDER}/${zipContainer}/${zipFilename}`;
+    const zipSourcePath = path.join(BACKUP_FOLDER, zipContainer, zipFilename);
     res.zip([
       { path: zipSourcePath, name: zipFilename },
     ]);
@@ -49,7 +49,6 @@ module.exports = (router) => {
 
   // Delete backup folder
   router.delete('/backup', (req, res) => {
-    console.log(req.query);
     const backups = getDirectories(BACKUP_FOLDER);
     if (_.get(req, 'query.name')) {
       if (backups.find(name => name === req.query.name)) {
@@ -69,7 +68,7 @@ module.exports = (router) => {
       if (_.get(fileUploaded, 'file')) {
         const dateName = moment().format('DD_MM_YY.HH.mm.ss');
         const outputBackupFolder = `dentast_${dateName}`;
-        const backupOutputFolder = `${BACKUP_FOLDER}/${outputBackupFolder}`;
+        const backupOutputFolder = path.join(BACKUP_FOLDER, outputBackupFolder);
         fs.mkdirSync(backupOutputFolder);
         fs.createReadStream(fileUploaded.file.path).pipe(unzip.Extract({ path: backupOutputFolder }));
         res.status(200).end();

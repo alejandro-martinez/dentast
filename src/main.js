@@ -8,10 +8,10 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import VeeValidate from 'vee-validate';
 // eslint-disable-next-line import/no-extraneous-dependencies
 // Package was adapted to the application so we host it in the project files
-import VueScheduler from 'v-calendar-scheduler';
 import 'moment/locale/es';
 import 'vue-snotify/styles/material.css'; // or dark.css or simple.css
 // eslint-disable-next-line import/no-extraneous-dependencies
+import VueScheduler from 'v-calendar-scheduler';
 import 'v-calendar-scheduler/lib/main.css';
 
 import Snotify from 'vue-snotify';

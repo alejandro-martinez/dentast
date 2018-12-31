@@ -8,10 +8,10 @@ const sourceMapEnabled = isProduction
 
 module.exports = {
   loaders: utils.cssLoaders({
-    sourceMap: sourceMapEnabled,
-    extract: isProduction
+    sourceMap: false,
+    extract: false,
   }),
-  cssSourceMap: sourceMapEnabled,
+  cssSourceMap: false,
   cacheBusting: config.dev.cacheBusting,
   transformToRequire: {
     video: ['src', 'poster'],

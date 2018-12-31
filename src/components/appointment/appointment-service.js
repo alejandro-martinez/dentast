@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from '../axios-wrapper';
 
 // eslint-disable-next-line import/prefer-default-export
 /* eslint no-underscore-dangle: 0 */
@@ -8,6 +8,6 @@ export const saveAppointment = appointment => axios.put(`http://localhost:3000/a
 
 export const createAppointment = appointment => axios.post('http://localhost:3000/appointment', appointment).then(response => response.data);
 
-export const deleteAppointment = appointmentId => axios.delete('http://localhost:3000/appointment', { params: { _id: appointmentId } }).then((response) => {
-  return response.data;
-});
+export const deleteAppointment = appointmentId => axios.delete('http://localhost:3000/appointment', { params: { _id: appointmentId } }).then(response =>
+  response.data,
+);

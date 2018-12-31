@@ -1,0 +1,21 @@
+# Instalacion dentast windows 7
+
+# Dependencias
+
+# Instalar nodejs
+	https://nodejs.org/es/download/
+
+# Instalar MongoDB Community edition v3.6
+# Configurar MongoDB como un servicio de Windows
+
+	https://docs.mongodb.com/v3.6/tutorial/install-mongodb-on-windows/
+
+# Instalar AlwaysUp para correr la aplicacion node automaticamente al iniciar PC
+
+# Descargar aplicacion dentast
+	url: https://github.com/alejandro-martinez/dentast
+
+	Descomprimir en c:/dentast
+	Ejecutar npm install
+	Copiar archivos de v-calendar-scheduler-modified a node_modules/v-calendar-scheduler/
+

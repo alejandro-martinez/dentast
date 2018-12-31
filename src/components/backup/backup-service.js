@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from '../axios-wrapper';
 
 /* eslint no-underscore-dangle: 0 */
 export const createBackup = () => axios.post('http://localhost:3000/backup').then(response => response.data);

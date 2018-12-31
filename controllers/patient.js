@@ -3,8 +3,15 @@ const Patient = require('../models/patient.js');
 module.exports = (router) => {
   /* GET ALL Patients */
   router.get('/patient', (req, res, next) => {
-    Patient.find((err, patients) => {
-      console.log(err);
+    const retrieveFields = {
+      name: 1,
+      afiliateNum: 1, 
+      address: 1,
+      city: 1,
+      tel: 1,
+      medicalCoverage: 1,
+    };
+    Patient.find({}, retrieveFields, (err, patients) => {
       if (err) return next(err);
       return res.json(patients);
     }).limit(req.params.limit).populate('medicalCoverage');
@@ -14,7 +21,10 @@ module.exports = (router) => {
   router.get('/patient/search/:searchTerm', (req, res, next) => {
     if (req.params.searchTerm) {
       const nameRegexp = new RegExp(req.params.searchTerm, 'i');
-      Patient.find({ name: nameRegexp }, (err, patients) => {
+      const retrieveFields = {
+        name: 1,
+      };
+      Patient.find({ name: nameRegexp }, retrieveFields, (err, patients) => {
         if (err) return next(err);
         return res.json(patients);
       }).populate('medicalCoverage');
@@ -29,6 +39,7 @@ module.exports = (router) => {
   /* GET SINGLE Patient BY ID  */
   router.get('/patient/:id', (req, res, next) => {
     Patient.findOne({ _id: req.params.id }, (err, patient) => {
+      req.err = 'ERR';
       if (err) return next(err);
       return res.json(patient);
     });
@@ -38,6 +49,7 @@ module.exports = (router) => {
   router.post('/patient', (req, res) => {
     Patient.create(req.body, (err, post) => {
       if (err) {
+        logger.error('loading an array', [1,2,3], 'now!');
         res.status(500);
         return res.json('Error al crear paciente');
       }

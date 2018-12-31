@@ -41,7 +41,10 @@ export default {
       };
     },
     patientOptions() {
-      return this.patients.map(toOptionFormat);
+      if (this.patients) {
+        return this.patients.map(toOptionFormat);
+      }
+      return [];
     },
   },
   created() {

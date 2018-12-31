@@ -1,4 +1,4 @@
-import axios from 'axios';
+import axios from '../axios-wrapper';
 
 // eslint-disable-next-line import/prefer-default-export
 /* eslint no-underscore-dangle: 0 */

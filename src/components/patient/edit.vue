@@ -146,12 +146,11 @@
               </div>
             </div>
           </div>
-        </div>
-      </div>
-      <div class="row mb-4">
-        <div class="col-12 text-right">
-          <button class="btn btn-primary mr-2" @click="save()">Guardar</button>
-          <button class="btn btn-secondary">Cancelar</button>
+          <div class="col-12 mt-2 mb-4 pr-0">
+            <div class="col-12 text-right">
+              <button class="btn btn-primary mr-2" @click="save()">Guardar</button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -202,7 +201,7 @@ import {es} from 'vuejs-datepicker/dist/locale'
 import { BasicSelect } from 'vue-search-select';
 import Datepicker from 'vuejs-datepicker';
 import { savePatient, createPatient, getPatient } from './patient-service';
-import Odontogram from './odontogram';
+import Odontogram from './patient-odontogram';
 import MedicalRecords from './medical-records';
 import { getAllMedicalCoverages } from '../medical-coverage/medical-coverage-service';
 import { toOptionFormat } from '../../helpers/basic-select';
@@ -243,11 +242,7 @@ export default {
       this.medicalCoverageList = medicalCoverageList;
     });
     if (patientId) {
-      getPatient(patientId).then((patient) => {
-        this.patient = patient;
-        this.patient.id = patient._id;
-        console.log(this.patient);
-      });
+      this.refreshPatient(patientId);
     } else {
       const defaultOdontontogram = this.buildDefaultOdontogram();
       this.$set(this.patient, 'odontogram', defaultOdontontogram);
@@ -258,7 +253,10 @@ export default {
       return this.patient._id ? 'Edicion de pacientes' : 'Nuevo paciente';
     },
     medicalCoverageOptions() {
-      return this.medicalCoverageList.map(toOptionFormat);
+      if (this.medicalCoverageList) {
+        return this.medicalCoverageList.map(toOptionFormat);
+      }
+      return [];
     },
     selectedMedicalCoverage() {
       if (!this.patient.medicalCoverage) {
@@ -273,6 +271,12 @@ export default {
     },
   },
   methods: {
+    refreshPatient(patientId) {
+      getPatient(patientId).then((patient) => {
+        this.patient = patient;
+        this.patient.id = patient._id;
+      });
+    },
     buildOdontogramRow(init, end, defaultOdontontogram) {
       for (let i = init; i < end; i++) {
         defaultOdontontogram.push({
@@ -323,14 +327,11 @@ export default {
       this.$validator.validate().then(isValid => {
         if (isValid) {
           const patient = this.preProcess();
-          if (patient.id) {
-            savePatient(patient).then(this.success, this.failed);
-          } else {
-            createPatient(patient).then((patient) => {
-              this.success();
-              this.patient.id = patient._id;
-            });
-          }
+          const promise = patient.id ? savePatient : createPatient;
+          promise(patient).then((patientResponse) => {
+            this.success();
+            patient.id = patientResponse._id;
+          }, this.failed);
         }
       });
     },

@@ -3,8 +3,12 @@
     <div class="card card-accent-info">
       <div class="card-header">
         <div class="row align-items-center">
-          <div class="col-12">
+          <div class="col-3">
+            <i class="fa fa-align-justify"></i>
             <h4>Copias de seguridad disponibles</h4>
+          </div>
+          <div class="col-3 offset-6 text-right">
+            <button title="Restaurar una copia de seguridad subiendo un archivo desde tu PC" type="button" @click="$refs.file.click()" class="btn btn-primary">Importar copia de seguridad</button>
           </div>
           <div class="col-12">
             <vue-scrolling-table
@@ -34,7 +38,6 @@
         <form id="uploadForm" enctype="multipart/form-data" @change="handleFileUpload()">
           <input type="file" class="d-none" id="file" name="file" ref="file" accept=".zip">
         </form>
-        <button title="Restaurar una copia de seguridad subiendo un archivo desde tu PC" type="button" @click="$refs.file.click()" class="btn btn-primary">Importar copia de seguridad</button>
         <button title="Restaurar una copia de seguridad desde la lista visible" v-if="backupList.length > 0" type="button" class="btn btn-primary" @click="restoreBackup()">Restaurar copia</button>
         <button title="Crear una copia de seguridad de los datos actuales" type="button" class="btn btn-primary" @click="makeBackup()">Hacer nueva copia</button>
         <button title="Descargar una copia de seguridad seleccionando una de la lista" type="button" class="btn btn-secondary" @click="downloadBackupAsZip()">Descargar copia</button>
@@ -62,10 +65,6 @@ table.scrolling tbody {
 .table.scrolling td.name {
   min-width: 100em;
   width: 100em;
-}
-.table.scrolling tr.selected td {
-  background: #f0f3f5 !important;
-  font-weight: bold;
 }
 </style>
 <script>
@@ -111,19 +110,18 @@ export default {
         backup.selected = false;
         return backup;
       });
-      
       backups[backupIndex].selected = !backups[backupIndex].selected;
       this.$set(this, 'backupList', backups);
     },
     handleFileUpload() {
       if (this.$refs.file.files.length > 0) {
         this.file = this.$refs.file.files[0];
-        let formData = new FormData();
+        const formData = new FormData();
         formData.append('file', this.file);
         uploadBackup(formData).then(() => {
           this.reloadBackups();
-          this.$snotify.success(`La copia de seguridad se ha creado correctamente`, { position: 'rightTop' });
-        }, () => {
+          this.$snotify.success('La copia de seguridad se ha creado correctamente', { position: 'rightTop' });
+        }, (err) => {
           this.$snotify.error(`Error al realizar subir la copia de seguridad: ${err}`, { position: 'rightTop' });
         });
       }
@@ -131,17 +129,17 @@ export default {
     makeBackup() {
       createBackup().then(() => {
         this.reloadBackups();
-        this.$snotify.success(`La copia de seguridad se ha creado correctamente`, { position: 'rightTop' });
-      }, () => {
+        this.$snotify.success('La copia de seguridad se ha creado correctamente', { position: 'rightTop' });
+      }, (err) => {
         this.$snotify.error(`Error al realizar crear la copia de seguridad: ${err}`, { position: 'rightTop' });
       });
     },
     restoreBackup() {
       if (this.isBackupSelected()) {
         restoreBackup(this.selectedBackup).then(() => {
-          this.$snotify.success(`La copia de seguridad se ha restaurado correctamente`, { position: 'rightTop' });
-        }, () => {
-          this.$snotify.error(`Error al realizar restaurar la copia de seguridad: ${err}`, { position: 'rightTop' });
+          this.$snotify.success('La copia de seguridad se ha restaurado correctamente', { position: 'rightTop' });
+        }, (err) => {
+          this.$snotify.error(`Error al restaurar la copia de seguridad: ${err}`, { position: 'rightTop' });
         });
       }
     },
@@ -149,8 +147,8 @@ export default {
       if (this.isBackupSelected()) {
         deleteBackup(this.selectedBackup).then(() => {
           this.reloadBackups();
-          this.$snotify.success(`La copia de seguridad se ha eliminado correctamente`, { position: 'rightTop' });
-        }, () => {
+          this.$snotify.success('La copia de seguridad se ha eliminado correctamente', { position: 'rightTop' });
+        }, (err) => {
           this.$snotify.error(`Error al realizar eliminar la copia de seguridad: ${err}`, { position: 'rightTop' });
         });
       }
@@ -163,7 +161,8 @@ export default {
     },
     downloadBackupAsZip() {
       if (this.isBackupSelected()) {
-        const backupName = this.selectedBackup.match(/([^/]*)\/*$/)[1];
+        const backupDate = this.selectedBackup.split('dentast').pop();
+        const backupName = `dentast${backupDate}`;
         downloadBackup(backupName).then((response) => {
           const url = window.URL.createObjectURL(response.data);
           const link = document.createElement('a');

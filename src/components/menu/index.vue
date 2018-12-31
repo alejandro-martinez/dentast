@@ -59,7 +59,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style>
 .navbar-nav {
   display: flex;
   flex-direction: row;
@@ -73,10 +73,15 @@ export default {
   padding-left: 0;
   color: #73818f;
   cursor: pointer;
+  border: 0 !important;
 }
 
 .nav-link:hover {
   color: black;
+  font-weight: bold;
+}
+.nav-link.active {
+  font-weight: 600 !important;
 }
 /* TODO fix this */
 .nav {

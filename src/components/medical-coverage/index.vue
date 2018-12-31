@@ -7,7 +7,7 @@
           <h4>Lista de obras sociales</h4>
         </div>
         <div class="col-2 offset-7">
-          <router-link class="btn btn-primary nav-link"
+          <router-link class="btn btn-primary"
             :to="{ name: 'medical-coverage-create' }" tag="li">
                 <span class="nav-label">Nueva obra social</span>
           </router-link>
@@ -16,7 +16,7 @@
     </div>
     <div class="card-body">
       <vue-scrolling-table
-        class="medicalCoverage"
+        class="table table-responsive-sm medicalCoverage"
         :scroll-horizontal="false"
         :scroll-vertical="true"
         :sync-header-scroll="true"
@@ -41,11 +41,7 @@
 </div>
 </template>
 
-<style>
-table tbody tr {
-  cursor: pointer;
-}
-
+<style scoped>
 table.scrolling tbody {
   height: 59vh !important;
 }
