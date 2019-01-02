@@ -1,6 +1,10 @@
 {
   "name": "sergiocitate",
   "version": "1.0.0",
+  "auto-updater":{
+    "repo":"/alejandro-martinez/dentast",
+    "branch":"master",
+  },
   "description": "Sistema para clinica odontologica",
   "author": "Alejandro Martinez <alejandromartinezap@gmail.com>",
   "private": true,
@@ -14,6 +18,7 @@
     "build": "node build/build.js"
   },
   "dependencies": {
+    "auto-updater": "^1.0.2",
     "axios": "^0.18.0",
     "backup-mongodb": "^0.1.1",
     "backup-mongodb-restorer": "^1.1.0",

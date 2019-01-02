@@ -5,7 +5,7 @@
         <div class="row align-items-center">
           <div class="col-3">
             <i class="fa fa-align-justify"></i>
-            <h4>Copias de seguridad disponibles</h4>
+            <h4>Copias de seguridad</h4>
           </div>
           <div class="col-3 offset-6 text-right">
             <button title="Restaurar una copia de seguridad subiendo un archivo desde tu PC" type="button" @click="$refs.file.click()" class="btn btn-primary">Importar copia de seguridad</button>
@@ -40,8 +40,8 @@
         </form>
         <button title="Restaurar una copia de seguridad desde la lista visible" v-if="backupList.length > 0" type="button" class="btn btn-primary" @click="restoreBackup()">Restaurar copia</button>
         <button title="Crear una copia de seguridad de los datos actuales" type="button" class="btn btn-primary" @click="makeBackup()">Hacer nueva copia</button>
-        <button title="Descargar una copia de seguridad seleccionando una de la lista" type="button" class="btn btn-secondary" @click="downloadBackupAsZip()">Descargar copia</button>
-        <button title="Borrar una copia de seguridad del disco" type="button" class="btn btn-danger" @click="removeBackup()">Eliminar copia</button>
+        <button v-if="backupList.length > 0" title="Descargar una copia de seguridad" type="button" class="btn btn-secondary" @click="downloadBackupAsZip()">Descargar copia</button>
+        <button v-if="backupList.length > 0" title="Borrar una copia de seguridad del disco" type="button" class="btn btn-danger" @click="removeBackup()">Eliminar copia</button>
       </div>
     </div>
   </div>
