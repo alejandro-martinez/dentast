@@ -11,8 +11,8 @@ const AutoUpdater = require('auto-updater');
 const autoupdater = new AutoUpdater({
  pathToJson: '',
  autoupdate: true,
- checkgit: true,
- jsonhost: 'https://raw.githubusercontent.com/alejandro-martinez/dentast/master/package.json',
+ checkgit: false,
+ jsonhost: 'raw.githubusercontent.com',
  contenthost: 'https://github.com/alejandro-martinez/dentast/archive/master.zip',
  progressDebounce: 0,
  devmode: false
