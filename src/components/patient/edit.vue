@@ -10,10 +10,6 @@
                   <i class="fa fa-align-justify"></i>
                   <h4> {{ pageTitle }}</h4>
                 </div>
-                <div class="col-2 text-right">
-                  <button class="btn btn-primary"
-                    @click="reloadComponent()">Nuevo paciente</button>
-                </div>
               </div>
             </div>
             <div class="card-body">
@@ -21,7 +17,7 @@
                 <div class="col-6">
                   <div class="form-group" :class="{'border-danger': errors.has('patient-name') }">
                     <label for="patient-name">Apellido y nombres</label>
-                    <input id="patient-name" name="patient-name" type="text" v-validate="'required'"
+                    <input autocomplete="off" id="patient-name" name="patient-name" type="text" v-validate="'required'"
                       v-model="patient.name" class="form-control"
                         placeholder="Apellido y nombres">
                     <span class="text-danger" v-show="errors.has('patient-name')">
@@ -55,7 +51,7 @@
 
                   <div class="form-group">
                     <label for="patient-tel">Telefono</label>
-                    <input id="patient-tel" type="text" v-model="patient.tel"
+                    <input autocomplete="off" id="patient-tel" type="text" v-model="patient.tel"
                       class="form-control" placeholder="Tel">
                   </div>
                 </div>
@@ -63,7 +59,7 @@
                 <div class="col-6">
                    <div class="form-group">
                     <label for="patient-address">Domicilio</label>
-                    <input id="patient-address" type="text" v-model="patient.address"
+                    <input autocomplete="off" id="patient-address" type="text" v-model="patient.address"
                       class="form-control" placeholder="Direccion">
                   </div>
                   <div class="form-group">
@@ -86,8 +82,16 @@
                   </div>
                   <div class="form-group">
                     <label for="patient-afiliate-num">Nro de afiliado</label>
-                    <input id="patient-afiliate-num" type="text" v-model="patient.afiliateNum"
+                    <input autocomplete="off" id="patient-afiliate-num" type="text" v-model="patient.afiliateNum"
                       class="form-control" placeholder="Nro de afiliado">
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-12">
+                  <div class="form-group">
+                    <label for="patient-notes">Observaciones</label>
+                    <textarea class="form-control" v-model="patient.notes" placeholder="Observaciones" id="patient-notes"></textarea>
                   </div>
                 </div>
               </div>
@@ -95,11 +99,11 @@
           </div>
         </div>
       </div>
-      <div class="row pl-0 pr-0"  v-if="patient.id">
-        <div class="col-5 pr-2">
-          <medical-records @save-patient="save()" v-model="patient.medicalRecords"></medical-records>
+      <div class="row pl-0 pr-0">
+        <div class="col-5 pr-2" v-if="patient.id">
+          <medical-records v-if="patient.id" @save-patient="save()" v-model="patient.medicalRecords"></medical-records>
         </div>
-        <div id="patient-odontogram" class="col-7 p-0 pr-3">
+        <div id="patient-odontogram" class="col-7 p-0 pr-3" v-if="patient.id">
           <div class="card card-accent-info">
             <div class="card-header">
               <div class="row">
@@ -146,11 +150,9 @@
               </div>
             </div>
           </div>
-          <div class="col-12 mt-2 mb-4 pr-0">
-            <div class="col-12 text-right">
-              <button class="btn btn-primary mr-2" @click="save()">Guardar</button>
-            </div>
-          </div>
+        </div>
+        <div class="col-12 text-right mt-3 mb-3">
+          <button class="btn btn-primary mr-2" @click="save()">Guardar</button>
         </div>
       </div>
     </div>
@@ -218,6 +220,7 @@ const defaultSchema = {
   medicalCoverage: '',
   odontogram: [],
   medicalRecords: [],
+  notes: '',
 };
 
 export default {
@@ -292,15 +295,12 @@ export default {
     },
     buildDefaultOdontogram() {
       const defaultOdontontogram = [];
-      this.buildOdontogramRow(11, 19, defaultOdontontogram);
-      this.buildOdontogramRow(21, 29, defaultOdontontogram);
-      this.buildOdontogramRow(31, 39, defaultOdontontogram);
-      this.buildOdontogramRow(41, 49, defaultOdontontogram);
-      this.buildOdontogramRow(51, 56, defaultOdontontogram);
-      this.buildOdontogramRow(61, 66, defaultOdontontogram);
-      this.buildOdontogramRow(71, 76, defaultOdontontogram);
-      this.buildOdontogramRow(81, 86, defaultOdontontogram);
-
+      const cols = [19, 29, 39, 49, 56, 66, 76, 86];
+      let colCounter = 0;
+      for (let i=10; i < 90; i+= 10) {
+        this.buildOdontogramRow(i + 1, cols[colCounter], defaultOdontontogram);
+        colCounter++;
+      }
       return defaultOdontontogram;
     },
     preProcess() {
@@ -330,7 +330,7 @@ export default {
           const promise = patient.id ? savePatient : createPatient;
           promise(patient).then((patientResponse) => {
             this.success();
-            patient.id = patientResponse._id;
+            this.patient.id = patientResponse._id;
           }, this.failed);
         }
       });

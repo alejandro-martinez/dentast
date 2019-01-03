@@ -8,7 +8,7 @@
         <div class="card-body">
           <div class="form-group" :class="{'border-danger': errors.has('medical-coverage-name') }">
             <label for="medical-coverage-name">Nombre</label>
-            <input name="medical-coverage-name" id="medical-coverage-name" type="text" v-validate="'required'"
+            <input autocomplete="off" name="medical-coverage-name" id="medical-coverage-name" type="text" v-validate="'required'"
               v-model="medicalCoverage.name" class="form-control" placeholder="Nombre">
             <span class="text-danger"
               v-show="errors.has('medical-coverage-name')">Nombre es requerido</span>
@@ -53,16 +53,13 @@ export default {
     save() {
       this.$validator.validate().then((isValid) => {
         if (isValid) {
-          if (this.medicalCoverage.id) {
-            saveMedicalCoverage(this.medicalCoverage).then(() => {
-              this.$snotify.success('La obra social se ha actualizado correctamente', { position: 'rightTop' });
-            });
-          } else {
-            createMedicalCoverage(this.medicalCoverage).then((medicalCoverage) => {
-              this.$snotify.success('La obra social ha sido agregada correctamente', { position: 'rightTop' });
-              this.medicalCoverage.id = medicalCoverage._id;
-            });
-          }
+          const promise = this.medicalCoverage.id ? saveMedicalCoverage : createMedicalCoverage;
+          promise(this.medicalCoverage).then((medicalCoverage) => {
+            this.$snotify.success('La obra social ha sido actualizada correctamente', { position: 'rightTop' });
+            this.medicalCoverage.id = medicalCoverage._id;
+          }, () => {
+            this.$snotify.error('Ocurrió un error al guardar la obra social', { position: 'rightTop' });
+          });
         }
       });
     },

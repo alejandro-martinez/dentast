@@ -1,9 +1,9 @@
 <template>
   <header class="app-header navbar">
-    <a class="navbar-brand" href="#">
-      <img class="navbar-brand-full" src="../../assets/img/logo.jpg" alt="Dentast">
+    <a class="navbar-brand pl-4" href="/" id="logo">
+      <img class="navbar-brand-full" src="../../assets/img/logo.png" alt="Dentast">
     </a>
-    <ul class="nav nav-tabs border-0">
+    <ul class="nav nav-tabs border-0 ml-3 pl-3">
       <li class="nav-item px-3">
         <router-link class="nav-link" :class="{'active': activeRoute === 'appointment-list'}"
           :to="{ name: 'appointment-list' }" tag="li">
@@ -25,7 +25,7 @@
       <li class="nav-item px-3">
           <router-link class="nav-link" :class="{'active': activeRoute === 'backup'}"
               :to="{ name: 'backup' }" tag="li">
-              <span class="nav-label">Copia de seguridad</span>
+              <span class="nav-label">Copias de seguridad</span>
           </router-link>
       </li>
     </ul>
@@ -71,17 +71,18 @@ export default {
 .nav-link {
   padding-right: 0;
   padding-left: 0;
-  color: #73818f;
+  color: #225497;
   cursor: pointer;
   border: 0 !important;
 }
 
 .nav-link:hover {
-  color: black;
+  color: #225497;
   font-weight: bold;
 }
 .nav-link.active {
   font-weight: 600 !important;
+  color: #225497 !important;
 }
 /* TODO fix this */
 .nav {

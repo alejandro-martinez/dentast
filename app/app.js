@@ -11,6 +11,7 @@ mongoose.Promise = require('bluebird');
 
 mongoose.connect('mongodb://localhost/dentast', {
   promiseLibrary: bluebird,
+  useMongoClient: true,
 })
   .then(() => {
     console.log('Connected to DB');

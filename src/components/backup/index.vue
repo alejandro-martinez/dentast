@@ -78,7 +78,7 @@ export default {
     VueScrollingTable,
   },
   created() {
-    this.backupColumns = ['Copia de Seguridad'];
+    this.backupColumns = ['Ubicación'];
     this.backupColumnKeys = ['name'];
     this.reloadBackups();
   },
@@ -93,7 +93,9 @@ export default {
     selectedBackup() {
       const selectedBackup = this.backupList.find(backup => backup.selected);
       if (selectedBackup) {
-        return selectedBackup.name;
+        const backupDate = selectedBackup.name.split('dentast').pop();
+        const backupName = `dentast${backupDate}`;
+        return backupName;
       }
       return '';
     },
@@ -120,9 +122,9 @@ export default {
         formData.append('file', this.file);
         uploadBackup(formData).then(() => {
           this.reloadBackups();
-          this.$snotify.success('La copia de seguridad se ha creado correctamente', { position: 'rightTop' });
+          this.$snotify.success('La copia de seguridad se ha importado correctamente', { position: 'rightTop' });
         }, (err) => {
-          this.$snotify.error(`Error al realizar subir la copia de seguridad: ${err}`, { position: 'rightTop' });
+          this.$snotify.error(`Error al importart la copia de seguridad: ${err}`, { position: 'rightTop' });
         });
       }
     },
@@ -161,9 +163,8 @@ export default {
     },
     downloadBackupAsZip() {
       if (this.isBackupSelected()) {
-        const backupDate = this.selectedBackup.split('dentast').pop();
-        const backupName = `dentast${backupDate}`;
-        downloadBackup(backupName).then((response) => {
+        downloadBackup(this.selectedBackup).then((response) => {
+          console.log(response);
           const url = window.URL.createObjectURL(response.data);
           const link = document.createElement('a');
           const currentDate = moment().format('YYYY-MM-DD-HH:mm:ss');

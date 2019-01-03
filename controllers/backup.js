@@ -13,7 +13,9 @@ const DBRestore = require('backup-mongodb-restorer');
 
 const BACKUP_FOLDER = path.join(__dirname, '../backups/');
 const DATABASE_CONNECTION_STRING = 'mongodb://localhost/dentast';
+
 const isDirectory = source => fs.lstatSync(source).isDirectory();
+
 const isFile = source => fs.lstatSync(source).isFile();
 
 const getFolderContents = source => fs.readdirSync(source).map(name => path.join(source, name));
@@ -51,11 +53,21 @@ module.exports = (router) => {
   router.delete('/backup', (req, res) => {
     const backups = getDirectories(BACKUP_FOLDER);
     if (_.get(req, 'query.name')) {
-      if (backups.find(name => name === req.query.name)) {
-        rimraf(req.query.name, () => res.status(200).end());
+      const backupFolder = req.query.name.replace('.zip', '');
+      const backupForDeletion = backups.find(name => name.match(backupFolder));
+
+      if (backupForDeletion) {
+        try {
+          rimraf(backupForDeletion, () => {
+            res.status(200).end()
+          });
+        }
+        catch (err) {
+          return res.status(500).json({ err });
+        }
       }
     }
-    return res.status(500);
+    return res.status(404);
   });
 
   router.post('/backup/import', (req, res) => {
@@ -90,7 +102,8 @@ module.exports = (router) => {
 
   router.put('/backup', (req, res) => {
     const useObjectID = true;
-    const zipFilePath = req.body.name;
+    const backupFolder = req.body.name.replace('.zip', '');
+    const zipFilePath = path.join(BACKUP_FOLDER, backupFolder, req.body.name);
     const restoreInstance = new DBRestore(DATABASE_CONNECTION_STRING, zipFilePath, useObjectID);
     restoreInstance.restore((err) => {
       if (err) {

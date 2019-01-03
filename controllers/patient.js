@@ -3,36 +3,20 @@ const Patient = require('../models/patient.js');
 module.exports = (router) => {
   /* GET ALL Patients */
   router.get('/patient', (req, res, next) => {
-    const retrieveFields = {
-      name: 1,
-      afiliateNum: 1, 
-      address: 1,
-      city: 1,
-      tel: 1,
-      medicalCoverage: 1,
-    };
-    Patient.find({}, retrieveFields, (err, patients) => {
+    Patient.find({}, (err, patients) => {
       if (err) return next(err);
       return res.json(patients);
-    }).limit(req.params.limit).populate('medicalCoverage');
+    });
   });
 
   /* Search Patients */
   router.get('/patient/search/:searchTerm', (req, res, next) => {
-    if (req.params.searchTerm) {
+    if (req.params && req.params.searchTerm) {
       const nameRegexp = new RegExp(req.params.searchTerm, 'i');
-      const retrieveFields = {
-        name: 1,
-      };
-      Patient.find({ name: nameRegexp }, retrieveFields, (err, patients) => {
+      Patient.find({ name: nameRegexp }, (err, patients) => {
         if (err) return next(err);
         return res.json(patients);
-      }).populate('medicalCoverage');
-    } else {
-      Patient.find((err, patients) => {
-        if (err) return next(err);
-        return res.json(patients);
-      }).populate('medicalCoverage');
+      });
     }
   });
 

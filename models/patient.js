@@ -8,6 +8,7 @@ const PatientSchema = new mongoose.Schema({
   city: String,
   birthdate: Date,
   sex: String,
+  notes: String,
   afiliateNum: Number,
   medicalCoverage: {
     type: mongoose.SchemaTypes.ObjectId,
@@ -18,6 +19,7 @@ const PatientSchema = new mongoose.Schema({
     teethNum: Number,
     side: String,
     code: String,
+    ticketNum: Number,
     date: {
       type: Date,
       default: moment(),

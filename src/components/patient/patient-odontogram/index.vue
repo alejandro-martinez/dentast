@@ -73,6 +73,7 @@
 }
 
 .row-right {
+  margin-left: -1px;
   border-left: 1px solid #c8ced3;
 }
 
@@ -129,25 +130,25 @@ export default {
   },
   computed: {
     firstRowLeft() {
-      return this.odontogram.filter(t => FIRST_ROW_LEFT.find(nro => nro === t.nro));
+      return this.odontogram.filter(t => FIRST_ROW_LEFT.find(nro => nro === t.nro)).reverse();
     },
     firstRowRight() {
       return this.odontogram.filter(t => FIRST_ROW_RIGHT.find(nro => nro === t.nro));
     },
     secondRowLeft() {
-      return this.odontogram.filter(t => SECOND_ROW_LEFT.find(nro => nro === t.nro));
+      return this.odontogram.filter(t => SECOND_ROW_LEFT.find(nro => nro === t.nro)).reverse();
     },
     secondRowRight() {
       return this.odontogram.filter(t => SECOND_ROW_RIGHT.find(nro => nro === t.nro));
     },
     thirdRowLeft() {
-      return this.odontogram.filter(t => THIRD_ROW_LEFT.find(nro => nro === t.nro));
+      return this.odontogram.filter(t => THIRD_ROW_LEFT.find(nro => nro === t.nro)).reverse();
     },
     thirdRowRight() {
       return this.odontogram.filter(t => THIRD_ROW_RIGHT.find(nro => nro === t.nro));
     },
     fourRowLeft() {
-      return this.odontogram.filter(t => FOUR_ROW_LEFT.find(nro => nro === t.nro));
+      return this.odontogram.filter(t => FOUR_ROW_LEFT.find(nro => nro === t.nro)).reverse();
     },
     fourRowRight() {
       return this.odontogram.filter(t => FOUR_ROW_RIGHT.find(nro => nro === t.nro));

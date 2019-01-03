@@ -59,4 +59,16 @@ html {
   margin-top: 21px;
   padding: 0 15px 0 15px;
 }
+
+body {
+  color: #225497;
+}
+
+#logo img {
+  width: 100px !important;
+}
+
+.btn-primary {
+  background: #1C62A6 !important;
+}
 </style>

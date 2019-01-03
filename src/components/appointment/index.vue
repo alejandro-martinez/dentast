@@ -114,6 +114,7 @@ export default {
     loadAllAppointments() {
       getAppointments().then((events) => {
         this.$set(this, 'events', events);
+        this.appointment.patient = null;
       });
     },
     eventDisplay: event => event.patient,

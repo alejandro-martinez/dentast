@@ -10,7 +10,7 @@
           <div class="col-3 offset-6 text-right">
             <router-link class="btn btn-primary"
               :to="{ name: 'patient-create' }" tag="li">
-                  <span class="nav-label">Agregar nuevo paciente</span>
+                  <span class="nav-label">Nuevo paciente</span>
             </router-link>
           </div>
         </div>
@@ -51,34 +51,40 @@
 
 <style scoped>
 
-.table.scrolling th.Obrasocial,
-.table.scrolling td.medicalCoverage {
-  min-width: 27em;
-  width: 27em;
-}
-
-.table.scrolling th.Nombre,
-.table.scrolling td.name {
-  min-width: 18em;
-  width: 18em;
-}
-
-.table.scrolling th.Direccion,
-.table.scrolling td.address {
-  min-width: 18em;
-  width: 18em;
-}
-
 .table.scrolling th.FechadeNacimiento,
 .table.scrolling td.birthdate {
   min-width: 5em;
   width: 5em;
 }
 
+.table.scrolling th.Nombre,
+.table.scrolling td.name {
+  min-width: 20em;
+  width: 20em;
+}
+
+.table.scrolling th.Dirección,
+.table.scrolling td.address {
+  min-width: 20em;
+  width: 20em;
+}
+
+.table.scrolling th.Localidad,
+.table.scrolling td.city {
+  min-width: 15em;
+  width: 15em;
+}
+
 .table.scrolling th.Numafiliado,
 .table.scrolling td.afiliateNum {
-  min-width: 9em;
-  width: 9em;
+  min-width: 14em;
+  width: 14em;
+}
+
+.table.scrolling th.Tel,
+.table.scrolling td.tel {
+  min-width: 12em;
+  width: 12em;
 }
 
 .search {
@@ -145,8 +151,8 @@ export default {
     VueScrollingTable,
   },
   created() {
-    this.patientColumns = ['Num afiliado', 'Nombre', 'Obra social', 'Direccion', 'Localidad', 'Tel'];
-    this.patientColumnKeys = ['afiliateNum', 'name', 'medicalCoverage', 'address', 'city', 'tel'];
+    this.patientColumns = ['Num afiliado', 'Nombre', 'Dirección', 'Localidad', 'Tel'];
+    this.patientColumnKeys = ['afiliateNum', 'name', 'address', 'city', 'tel'];
     getPatients().then((patients) => {
       this.$set(this, 'patients', patients);
     });
@@ -160,13 +166,7 @@ export default {
   computed: {
     patientList() {
       if (this.patients) {
-        const patientRecords = this.patients.map((p) => {
-          if (p.medicalCoverage) {
-            p.medicalCoverage = p.medicalCoverage.name;
-          }
-          return p;
-        });
-        return patientRecords;
+        return this.patients;
       }
       return [];
     },
@@ -182,7 +182,7 @@ export default {
           this.$set(this, 'patients', patients);
         });
       }
-    }, 300),
+    }, 500),
     editPatient(patient) {
       this.$router.push({
         name: 'patient-edit',

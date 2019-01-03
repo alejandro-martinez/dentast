@@ -5,11 +5,19 @@
         <h3 slot="header">Nuevo registro</h3>
         <div class="row" slot="body">
           <div class="col-12">
+            <div class="form-group">
+              <label for="record-ticketNum">Bono Nº</label>
+              <div class="row pt-1 pb-1">
+                <div class="col-12">
+                  <input autocomplete="off" type="text" id="record-ticketNum" name="record-ticketNum" class="form-control" placeholder="Bono N°" v-model="record.ticketNum" />
+                </div>
+              </div>
+            </div>
             <div class="form-group" :class="{'border-danger': errors.has('record-teethNum') }">
               <label for="record-teethNum">Diente</label>
               <div class="row pt-1 pb-1">
                 <div class="col-12">
-                  <input type="text" id="record-teethNum" name="record-teethNum" v-validate="'required'" class="form-control" placeholder="Diente N°" v-model="record.teethNum" />
+                  <input autocomplete="off" type="text" id="record-teethNum" name="record-teethNum" v-validate="'required'" class="form-control" placeholder="Diente N°" v-model="record.teethNum" />
                   <span class="text-danger" v-show="errors.has('record-teethNum')">Ingresa el numero</span>
                 </div>
               </div>
@@ -19,7 +27,7 @@
               <label for="record-teethSide">Cara</label>
               <div class="row pt-1 pb-1">
                 <div class="col-12">
-                  <input class="form-control" id="record-teethSide" name="record-teethSide" v-validate="'required'" type="text" placeholder="Cara" v-model="record.side" />
+                  <input autocomplete="off" class="form-control" id="record-teethSide" name="record-teethSide" v-validate="'required'" type="text" placeholder="Cara" v-model="record.side" />
                   <span class="text-danger" v-show="errors.has('record-teethSide')">Ingresa la cara</span>
                 </div>
               </div>
@@ -29,7 +37,7 @@
               <label for="record-teethCode">Codigo</label>
               <div class="row pt-1 pb-1">
                 <div class="col-12">
-                  <input type="text" id="record-teethCode" name="record-teethCode" v-validate="'required'" class="form-control" placeholder="Codigo" v-model="record.code" />
+                  <input autocomplete="off" type="text" id="record-teethCode" name="record-teethCode" v-validate="'required'" class="form-control" placeholder="Codigo" v-model="record.code" />
                   <span class="text-danger" v-show="errors.has('record-teethCode')">Ingresa el codigo</span>
                 </div>
               </div>
@@ -71,12 +79,12 @@
           :sync-footer-scroll="true">
         <template slot="thead">
           <tr>
-            <th v-for="col in columns" :key="col">{{ col }}</th>
+            <th v-for="col in columns" :key="col" :class="col.replace(' ', '')>{{ col }}</th>
           </tr>
         </template>
         <template slot="tbody">
           <tr v-for="r in medicalRecords" :key="r._id" @click="editRecord(r)">
-            <td @click="editRecord" v-for="col in columnKeys" :key="col + r._id" class="p-2">
+            <td @click="editRecord" v-for="col in columnKeys" :key="col + r._id" :class="col.replace(' ', '') class="p-2">
               {{ r[col] }}
             </td>
           </tr>
@@ -94,10 +102,29 @@ table.scrolling tbody {
 
 .table.scrolling.medical-records thead th:first-child,
 .table.scrolling.medical-records tbody tr td:first-child {
-  min-width: 5em !important;
-  max-width: 5em !important;
-  width: 5em !important;
+  min-width: 11em !important;
+  max-width: 11em !important;
+  width: 11em !important;
   height: 36px;
+}
+
+.table.scrolling th.Cara,
+.table.scrolling td.side {
+  min-width: 2em;
+  width: 2em;
+}
+
+.table.scrolling th.Codigo,
+.table.scrolling td.code{
+  min-width: 3em;
+  width: 3em;
+}
+
+
+.table.scrolling th.DienteN°,
+.table.scrolling td.teethNum{
+  min-width: 2em;
+  width: 2em;
 }
 </style>
 
@@ -122,6 +149,7 @@ export default {
       editing: false,
       records: [],
       record: {
+        ticketNum: null,
         teethNum: null,
         side: null,
         code: null,
@@ -135,8 +163,8 @@ export default {
     },
   },
   created() {
-    this.columns = ['Diente N°', 'Cara', 'Codigo', 'Fecha'];
-    this.columnKeys = ['teethNum', 'side', 'code', 'date'];
+    this.columns = ['Bono Nº', 'Diente N°', 'Cara', 'Codigo', 'Fecha'];
+    this.columnKeys = ['ticketNum', 'teethNum', 'side', 'code', 'date'];
     this.$set(this, 'records', this.value);
   },
   computed: {
@@ -166,6 +194,7 @@ export default {
     deleteRecord(r) {
       this.records.splice(r, 1);
       this.showMedicalRecordEditPopup = false;
+      this.$emit('save-patient');
     },
     editRecord(r) {
       this.record = r;

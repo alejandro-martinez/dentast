@@ -6,7 +6,7 @@
         <div class="col-3">
           <h4>Lista de obras sociales</h4>
         </div>
-        <div class="col-2 offset-7">
+        <div class="col-2 offset-7 text-right">
           <router-link class="btn btn-primary"
             :to="{ name: 'medical-coverage-create' }" tag="li">
                 <span class="nav-label">Nueva obra social</span>
