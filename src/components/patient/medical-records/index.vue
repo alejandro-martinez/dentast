@@ -79,12 +79,12 @@
           :sync-footer-scroll="true">
         <template slot="thead">
           <tr>
-            <th v-for="col in columns" :key="col" :class="col.replace(' ', '')>{{ col }}</th>
+            <th v-for="col in columns" :key="col" :class="col.replace(' ', '')">{{ col }}</th>
           </tr>
         </template>
         <template slot="tbody">
           <tr v-for="r in medicalRecords" :key="r._id" @click="editRecord(r)">
-            <td @click="editRecord" v-for="col in columnKeys" :key="col + r._id" :class="col.replace(' ', '') class="p-2">
+            <td @click="editRecord" v-for="col in columnKeys" :key="col + r._id" :class="col.replace(' ', '')" class="p-2">
               {{ r[col] }}
             </td>
           </tr>
@@ -102,29 +102,29 @@ table.scrolling tbody {
 
 .table.scrolling.medical-records thead th:first-child,
 .table.scrolling.medical-records tbody tr td:first-child {
-  min-width: 11em !important;
-  max-width: 11em !important;
-  width: 11em !important;
+  min-width: 9em !important;
+  max-width: 9em !important;
+  width: 9em !important;
   height: 36px;
 }
 
 .table.scrolling th.Cara,
 .table.scrolling td.side {
-  min-width: 2em;
-  width: 2em;
+  min-width: 4em;
+  width: 4em;
 }
 
 .table.scrolling th.Codigo,
 .table.scrolling td.code{
-  min-width: 3em;
-  width: 3em;
+  min-width: 5em;
+  width: 5em;
 }
 
 
 .table.scrolling th.DienteN°,
 .table.scrolling td.teethNum{
-  min-width: 2em;
-  width: 2em;
+  min-width: 5em;
+  width: 5em;
 }
 </style>
 

@@ -3,7 +3,7 @@
     <Menu v-if="isLoggedIn"></Menu>
     <vue-snotify></vue-snotify>
     <router-view v-if="isLoggedIn" />
-    <Login v-if="!isLoggedIn" @Login::loginResult="handleLoginResult"/>
+    <Login v-show="!isLoggedIn" @Login::loginResult="handleLoginResult"/>
   </div>
 </template>
 
@@ -21,17 +21,17 @@ export default {
   name: 'app',
   data() {
     return {
-      userIsLoggedIn: isUserLoggedIn(),
+      isLoggedIn: isUserLoggedIn(),
     };
   },
-  computed: {
-    isLoggedIn() {
-      return this.userIsLoggedIn;
+  watch: {
+    $route: () => {
+      this.isLoggedIn = localStorage.getItem('userLoggedIn') || false;
     },
   },
   methods: {
     handleLoginResult(result = true) {
-      this.userIsLoggedIn = result;
+      this.isLoggedIn = result;
       localStorage.setItem('userLoggedIn', result);
     },
   },
@@ -44,6 +44,9 @@ html {
   overflow-x: hidden;
 }
 
+.table.scrolling {
+  color: #1b2e4c;
+}
 .table.scrolling tr:hover td,
 .table.scrolling tr.selected td {
   background: #f0f3f5 !important;

@@ -5,7 +5,6 @@ import PatientEdit from '@/components/patient/edit';
 import MedicalCoverage from '@/components/medical-coverage';
 import MedicalCoverageEdit from '@/components/medical-coverage/edit';
 import Appointment from '@/components/appointment';
-import Login from '@/components/login';
 import Backup from '@/components/backup';
 import NProgress from 'nprogress';
 import '../../node_modules/nprogress/nprogress.css';
@@ -59,7 +58,6 @@ export const router = new Router({
     {
       path: '/logout',
       name: 'logout',
-      component: Login,
     },
   ],
 });
@@ -81,6 +79,7 @@ router.beforeEach((to, from, next) => {
   }
   if (to.path.match('logout')) {
     localStorage.removeItem('userLoggedIn');
+    next('/');
   }
   return next();
 });

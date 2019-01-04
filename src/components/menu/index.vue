@@ -1,5 +1,5 @@
 <template>
-  <header class="app-header navbar">
+  <header class="app-header navbar" v-if="isLoggedIn">
     <a class="navbar-brand pl-4" href="/" id="logo">
       <img class="navbar-brand-full" src="../../assets/img/logo.png" alt="Dentast">
     </a>
@@ -29,7 +29,7 @@
           </router-link>
       </li>
     </ul>
-    <div class="row mr-2" v-if="isLoggedIn">
+    <div class="row mr-2">
       <div class="col-12">
         <router-link class="nav-link" :to="{ name: 'logout' }" tag="li">
           <span class="nav-label">Salir</span>
@@ -46,14 +46,12 @@ export default {
   data() {
     return {
       items: ['Pacientes'],
+      isLoggedIn: localStorage.getItem('userLoggedIn') || false,
     };
   },
   computed: {
     activeRoute() {
       return this.$route.name;
-    },
-    isLoggedIn() {
-      return localStorage.getItem('userLoggedIn') || false;
     },
   },
 };

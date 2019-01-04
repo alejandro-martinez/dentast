@@ -27,17 +27,22 @@ const getFilesFromFolder = source => getFolderContents(source).filter(isFile);
 module.exports = (router) => {
   // Get available zip backups
   router.get('/backup', (req, res) => {
-    const backups = getDirectories(BACKUP_FOLDER);
-    const backupList = [];
-    if (backups) {
-      backups.forEach((backupFolder) => {
-        const folderFiles = getFilesFromFolder(backupFolder);
-        // Filter zip files
-        const backupZipFile = folderFiles.find(file => file.match('.zip'));
-        backupList.push({ name: backupZipFile });
-      });
+    let backups = [];
+    try {
+      backups = getDirectories(BACKUP_FOLDER);
+      const backupList = [];
+      if (backups) {
+        backups.forEach((backupFolder) => {
+          const folderFiles = getFilesFromFolder(backupFolder);
+          // Filter zip files
+          const backupZipFile = folderFiles.find(file => file.match('.zip'));
+          backupList.push({ name: backupZipFile });
+        });
+      }
+      return res.json(backupList);
+    } catch (err) {
+      return res.json([]);
     }
-    return res.json(backupList);
   });
 
   router.get('/backup/download/:name', (req, res) => {
@@ -59,10 +64,9 @@ module.exports = (router) => {
       if (backupForDeletion) {
         try {
           rimraf(backupForDeletion, () => {
-            res.status(200).end()
+            res.status(200).end();
           });
-        }
-        catch (err) {
+        } catch (err) {
           return res.status(500).json({ err });
         }
       }
