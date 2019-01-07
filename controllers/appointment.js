@@ -27,9 +27,7 @@ module.exports = (router) => {
       req.body,
       { runValidators: true },
       (err, appointment) => {
-        console.log('appointment', appointment);
         if (err) {
-          console.log(err);
           res.status(500);
           res.send('No se pudo editar el turno. Revisa los datos e intenta nuevamente');
         } else {
@@ -44,9 +42,7 @@ module.exports = (router) => {
   router.delete('/appointment', (req, res, next) => {
     if (req.query && req.query._id) {
       Appointment.remove({ _id: req.query._id }, (err) => {
-        console.log('err', err);
         if (err) return next(err);
-        console.log('returning');
         res.json({});
       });
     } else {

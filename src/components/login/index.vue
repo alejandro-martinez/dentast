@@ -1,6 +1,6 @@
 <template>
-  <div class="row justify-content-center login">
-    <div class="col-4">
+  <div class="row justify-content-center login-container">
+    <div class="col-4 login">
       <div class="card-group">
         <div class="card card-accent-info p-4">
           <div class="card-body">
@@ -59,10 +59,9 @@ export default {
   },
   methods: {
     login() {
-      authenticateUser(this.user).then((user) => {
-        localStorage.setItem('userLogged', user);
-        this.$emit('Login::loginResult');
-        this.$router.push('/patients');
+      authenticateUser(this.user).then(() => {
+        this.$store.dispatch('login');
+        this.$router.push('/appointments');
       }, (err) => {
         this.$snotify.error('Clave o usuario incorrectos', err);
       });

@@ -5,25 +5,25 @@
     </a>
     <ul class="nav nav-tabs border-0 ml-3 pl-3">
       <li class="nav-item px-3">
-        <router-link class="nav-link" :class="{'active': activeRoute === 'appointment-list'}"
+        <router-link class="nav-link" :class="{'active':  activeRoute.match('appointment')}"
           :to="{ name: 'appointment-list' }" tag="li">
           <span class="nav-label">Turnos</span>
         </router-link>
       </li>
       <li class="nav-item px-3">
-        <router-link :class="{'active': activeRoute === 'patient-list'}"
+        <router-link :class="{'active': activeRoute.match('patient')}"
           class="nav-link" :to="{ name: 'patient-list' }" tag="li">
           <span class="nav-label">Pacientes</span>
         </router-link>
       </li>
       <li class="nav-item px-3">
-          <router-link class="nav-link" :class="{'active': activeRoute === 'medical-coverage-list'}"
+          <router-link class="nav-link" :class="{'active':  activeRoute.match('medical')}"
               :to="{ name: 'medical-coverage-list' }" tag="li">
               <span class="nav-label">Obras sociales</span>
           </router-link>
       </li>
       <li class="nav-item px-3">
-          <router-link class="nav-link" :class="{'active': activeRoute === 'backup'}"
+          <router-link class="nav-link" :class="{'active':  activeRoute.match('backup')}"
               :to="{ name: 'backup' }" tag="li">
               <span class="nav-label">Copias de seguridad</span>
           </router-link>
@@ -40,19 +40,23 @@
 </template>
 
 <script>
+import { mapGetters, mapActions } from 'vuex';
 
 export default {
   name: 'Menu',
   data() {
     return {
       items: ['Pacientes'],
-      isLoggedIn: localStorage.getItem('userLoggedIn') || false,
     };
   },
   computed: {
+    ...mapGetters(['isLoggedIn']),
     activeRoute() {
       return this.$route.name;
     },
+  },
+  methods: {
+    ...mapActions(['logout']),
   },
 };
 </script>

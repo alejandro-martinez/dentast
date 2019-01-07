@@ -5,7 +5,7 @@
             <div class="v-cal-dialog-card">
                 <form @submit.prevent="saveEvent">
                     <header class="v-cal-dialog-card__header">
-                        <h5 class="v-cal-dialog__title">{{ title }}</h5>
+                        <h3 class="v-cal-dialog__title">{{ title }}</h3>
                         <button type="button" class="v-cal-dialog__close" @click="cancel"></button>
                     </header>
                     <section class="v-cal-dialog-card__body">

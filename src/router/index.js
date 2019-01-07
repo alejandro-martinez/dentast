@@ -7,6 +7,7 @@ import MedicalCoverageEdit from '@/components/medical-coverage/edit';
 import Appointment from '@/components/appointment';
 import Backup from '@/components/backup';
 import NProgress from 'nprogress';
+import { store } from '../store';
 import '../../node_modules/nprogress/nprogress.css';
 
 Vue.use(Router);
@@ -69,16 +70,12 @@ router.afterEach(() => {
 // see https://router.vuejs.org/en/advanced/navigation-guards.html
 router.beforeEach((to, from, next) => {
   NProgress.start();
-  const userLogged = localStorage.getItem('userLogged');
-  if (!userLogged) {
-    if (to.path === '/') {
-      next('/');
-    }
-  } else if (to.path === '/') {
-    next('/appointments');
+  const userLogged = store.getters.isLoggedIn;
+  if (!userLogged && to.path !== '/') {
+    next('/');
   }
   if (to.path.match('logout')) {
-    localStorage.removeItem('userLoggedIn');
+    store.dispatch('logout');
     next('/');
   }
   return next();

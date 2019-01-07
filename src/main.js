@@ -17,6 +17,7 @@ import 'v-calendar-scheduler/lib/main.css';
 import Snotify from 'vue-snotify';
 import Vue from 'vue';
 import App from './app';
+import { store } from './store';
 import { router } from './router';
 
 Vue.use(VueScheduler);
@@ -50,6 +51,7 @@ Vue.filter('formatDate', (value) => {
 new Vue({
   el: '#app',
   router,
+  store,
   components: { App },
   template: '<App/>',
 });

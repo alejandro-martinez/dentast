@@ -31,7 +31,6 @@ module.exports = (router) => {
       { runValidators: true },
       (err, medicalCoverage) => {
         if (err) {
-          console.log(err);
           res.status(500);
           res.send('No se pudo editar el usuario. Revisa los datos e intenta nuevamente');
         } else {

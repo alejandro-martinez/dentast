@@ -164,7 +164,6 @@ export default {
     downloadBackupAsZip() {
       if (this.isBackupSelected()) {
         downloadBackup(this.selectedBackup).then((response) => {
-          console.log(response);
           const url = window.URL.createObjectURL(response.data);
           const link = document.createElement('a');
           const currentDate = moment().format('YYYY-MM-DD-HH:mm:ss');

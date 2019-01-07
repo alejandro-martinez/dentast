@@ -3,15 +3,14 @@
     <Menu v-if="isLoggedIn"></Menu>
     <vue-snotify></vue-snotify>
     <router-view v-if="isLoggedIn" />
-    <Login v-show="!isLoggedIn" @Login::loginResult="handleLoginResult"/>
+    <Login v-show="!isLoggedIn" />
   </div>
 </template>
 
 <script>
+import { mapGetters, mapActions } from 'vuex';
 import Menu from './components/menu';
 import Login from './components/login';
-
-const isUserLoggedIn = () => localStorage.getItem('userLoggedIn') || false;
 
 export default {
   components: {
@@ -19,21 +18,8 @@ export default {
     Login,
   },
   name: 'app',
-  data() {
-    return {
-      isLoggedIn: isUserLoggedIn(),
-    };
-  },
-  watch: {
-    $route: () => {
-      this.isLoggedIn = localStorage.getItem('userLoggedIn') || false;
-    },
-  },
-  methods: {
-    handleLoginResult(result = true) {
-      this.isLoggedIn = result;
-      localStorage.setItem('userLoggedIn', result);
-    },
+  computed: {
+    ...mapGetters(['isLoggedIn']),
   },
 };
 </script>
@@ -42,6 +28,26 @@ export default {
 html {
   height: 100%;
   overflow-x: hidden;
+}
+/* You could use :after - it doesn't really matter */
+.login-container:before {
+    content: ' ';
+    display: block;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    opacity: 0.6;
+    background: url('assets/img/odontology.jpg');
+    background-repeat: no-repeat;
+    background-position: 50% 0;
+    -ms-background-size: cover;
+    -o-background-size: cover;
+    -moz-background-size: cover;
+    -webkit-background-size: cover;
+    background-size: cover;
 }
 
 .table.scrolling {

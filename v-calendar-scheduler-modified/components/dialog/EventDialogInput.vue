@@ -26,6 +26,7 @@
             <input
               v-if='field.type !== "date"'
               @input="onInput"
+              autocomplete="false"
               :value="newValue"
               :placeholder="fieldLabel"
               :type="field.type ? field.type : 'text'"

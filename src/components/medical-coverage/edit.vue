@@ -17,9 +17,6 @@
             <div class="col-1">
               <button class="btn btn-primary" @click="save()">Guardar</button>
             </div>
-            <div class="col-2">
-              <button class="btn btn-secondary">Cancelar</button>
-            </div>
           </div>
         </div>
       </div>
