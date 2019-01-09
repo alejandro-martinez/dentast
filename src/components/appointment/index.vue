@@ -164,11 +164,13 @@ export default {
     // Patient searching
     onInputChange(params) {
       if (params.field.name === 'patient') {
-        searchPatients(params.value).then((patients) => {
-          this.$set(this, 'patients', patients);
-        }, (err) => {
-          this.$snotify.error(`Error al buscar pacientes: ${JSON.stringify(err)}`, { position: 'rightTop' });
-        });
+        if (params.value) {
+          searchPatients(params.value).then((patients) => {
+            this.$set(this, 'patients', patients);
+          }, (err) => {
+            this.$snotify.error(`Error al buscar pacientes: ${JSON.stringify(err)}`, { position: 'rightTop' });
+          });
+        }
       }
     },
     preProcessAppointment(eventData) {

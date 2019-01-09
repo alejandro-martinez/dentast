@@ -71,10 +71,10 @@ router.afterEach(() => {
 router.beforeEach((to, from, next) => {
   NProgress.start();
   const userLogged = store.getters.isLoggedIn;
-  if (!userLogged && to.path !== '/') {
+  if (!userLogged) {
     next('/');
   }
-  if (to.path.match('logout')) {
+  if (to.path && to.path.match('logout')) {
     store.dispatch('logout');
     next('/');
   }

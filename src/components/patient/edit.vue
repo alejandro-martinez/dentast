@@ -244,7 +244,7 @@ export default {
     getAllMedicalCoverages().then((medicalCoverageList) => {
       this.medicalCoverageList = medicalCoverageList;
     });
-    if (patientId) {
+    if (patientId && patientId !== 'create') {
       this.refreshPatient(patientId);
     } else {
       const defaultOdontontogram = this.buildDefaultOdontogram();

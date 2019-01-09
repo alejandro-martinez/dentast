@@ -18,15 +18,18 @@ module.exports = (router) => {
         return res.json(patients);
       });
     }
+    console.log('no search term');
   });
 
   /* GET SINGLE Patient BY ID  */
   router.get('/patient/:id', (req, res, next) => {
-    Patient.findOne({ _id: req.params.id }, (err, patient) => {
-      req.err = 'ERR';
-      if (err) return next(err);
-      return res.json(patient);
-    });
+    if (req.params.id) {
+      Patient.findOne({ _id: req.params.id }, (err, patient) => {
+        req.err = 'ERR';
+        if (err) return next(err);
+        return res.json(patient);
+      });
+    }
   });
 
   /* SAVE Patient */

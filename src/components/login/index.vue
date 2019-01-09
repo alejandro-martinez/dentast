@@ -5,7 +5,7 @@
         <div class="card card-accent-info p-4">
           <div class="card-body">
             <h1>Ingreso</h1>
-            <p class="text-muted">Inicia sesion con tu cuenta</p>
+            <p class="text-muted">Inicia sesión con tu cuenta</p>
             <div class="input-group mb-3">
               <div class="input-group-prepend">
                 <span class="input-group-text">

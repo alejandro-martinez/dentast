@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex';
+import { mapGetters } from 'vuex';
 import Menu from './components/menu';
 import Login from './components/login';
 
@@ -20,6 +20,11 @@ export default {
   name: 'app',
   computed: {
     ...mapGetters(['isLoggedIn']),
+  },
+  created() {
+    if (this.$route.path === '/') {
+      this.$router.push('/appointments');
+    }
   },
 };
 </script>

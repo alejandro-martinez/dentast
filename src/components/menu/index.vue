@@ -52,7 +52,7 @@ export default {
   computed: {
     ...mapGetters(['isLoggedIn']),
     activeRoute() {
-      return this.$route.name;
+      return this.$route.name || '';
     },
   },
   methods: {
