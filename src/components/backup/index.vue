@@ -38,10 +38,10 @@
         <form id="uploadForm" enctype="multipart/form-data" @change="handleFileUpload()">
           <input type="file" class="d-none" id="file" name="file" ref="file" accept=".zip">
         </form>
-        <button title="Restaurar una copia de seguridad desde la lista visible" v-if="backupList.length > 0" type="button" class="btn btn-primary" @click="restoreBackup()">Restaurar copia</button>
+        <button v-if="selectedBackup" title="Restaurar una copia de seguridad desde la lista visible" type="button" class="btn btn-primary" @click="restoreBackup()">Restaurar copia</button>
         <button title="Crear una copia de seguridad de los datos actuales" type="button" class="btn btn-primary" @click="makeBackup()">Hacer nueva copia</button>
-        <button v-if="backupList.length > 0" title="Descargar una copia de seguridad" type="button" class="btn btn-secondary" @click="downloadBackupAsZip()">Descargar copia</button>
-        <button v-if="backupList.length > 0" title="Borrar una copia de seguridad del disco" type="button" class="btn btn-danger" @click="removeBackup()">Eliminar copia</button>
+        <button v-if="selectedBackup" title="Descargar una copia de seguridad" type="button" class="btn btn-secondary" @click="downloadBackupAsZip()">Descargar copia</button>
+        <button v-if="selectedBackup" title="Borrar una copia de seguridad del disco" type="button" class="btn btn-danger" @click="removeBackup()">Eliminar copia</button>
       </div>
     </div>
   </div>
@@ -137,7 +137,7 @@ export default {
       });
     },
     restoreBackup() {
-      if (this.isBackupSelected()) {
+      if (this.selectBackup) {
         restoreBackup(this.selectedBackup).then(() => {
           this.$snotify.success('La copia de seguridad se ha restaurado correctamente', { position: 'rightTop' });
         }, (err) => {
@@ -146,7 +146,7 @@ export default {
       }
     },
     removeBackup() {
-      if (this.isBackupSelected()) {
+      if (this.selectBackup) {
         deleteBackup(this.selectedBackup).then(() => {
           this.reloadBackups();
           this.$snotify.success('La copia de seguridad se ha eliminado correctamente', { position: 'rightTop' });
@@ -155,14 +155,8 @@ export default {
         });
       }
     },
-    isBackupSelected() {
-      if (!this.selectedBackup) {
-        this.$snotify.warning('Elige una copia de seguridad de la lista', { position: 'rightTop' });
-      }
-      return this.selectedBackup;
-    },
     downloadBackupAsZip() {
-      if (this.isBackupSelected()) {
+      if (this.selectedBackup) {
         downloadBackup(this.selectedBackup).then((response) => {
           const url = window.URL.createObjectURL(response.data);
           const link = document.createElement('a');

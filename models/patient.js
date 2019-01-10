@@ -2,7 +2,10 @@ const moment = require('moment');
 const mongoose = require('mongoose');
 
 const PatientSchema = new mongoose.Schema({
-  name: String,
+  name: {
+    type: String,
+    index: true,
+  },
   tel: String,
   address: String,
   city: String,

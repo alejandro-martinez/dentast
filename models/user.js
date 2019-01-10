@@ -2,7 +2,10 @@ const md5 = require('md5');
 const mongoose = require('mongoose');
 
 const UserSchema = new mongoose.Schema({
-  name: String,
+  name: {
+    type: String,
+    index: true,
+  },
   password: String,
 });
 
