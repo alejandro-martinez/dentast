@@ -21,7 +21,7 @@ module.exports = (router) => {
         const changes = _.get(response, 'summary.changes', 0) > 0;
   			const shouldUpdate = insertions || deletions || changes;
         if (shouldUpdate) {
-          // Mark system as it should be updated
+          // Mark system a s it should be updated
           System.findOneAndUpdate({ version: currentVersion }, {
             outdated: true,
           }, (err) => {
