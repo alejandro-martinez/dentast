@@ -22,7 +22,7 @@ module.exports = (router) => {
   			const shouldUpdate = insertions || deletions || changes;
         const newVersion = require('../package.json');
         // Mark system as it should be updated
-        Patient.findOneAndUpdate({ version: currentVersion }, {
+        System.findOneAndUpdate({ version: currentVersion }, {
           outdated: true,
         });
   			res.json({
@@ -49,7 +49,7 @@ module.exports = (router) => {
           const pjson = require('../package.json');
           const currentVersion = pjson.version;
     
-          Patient.findOneAndUpdate({ version: currentVersion }, {
+          System.findOneAndUpdate({ version: currentVersion }, {
             outdated: false,
           });
             res.status(200).end();
