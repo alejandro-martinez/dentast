@@ -1,5 +1,5 @@
 const System = require('../models/system.js');
-
+const _ = require('lodash');
 const USER = 'alejandro-martinez';
 const PASS = '55a5f40a09568af5f3e464f616b082a534d7a0be';
 const REPO = 'github.com/alejandro-martinez/dentast.git';
@@ -21,7 +21,7 @@ module.exports = (router) => {
         const changes = _.get(response, 'summary.changes', 0) > 0;
   			const shouldUpdate = insertions || deletions || changes;
         const newVersion = require('../package.json');
-        // Mark system as it should be updated
+        // Mark  system as it should be updated
         System.findOneAndUpdate({ version: currentVersion }, {
           outdated: true,
         });
