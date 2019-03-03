@@ -12,12 +12,9 @@ const remoteUrl = `https://${USER}:${PASS}@${REPO}`;
 module.exports = (router) => {
 
   router.get('/version', (req, res, next) => {
-<<<<<<< HEAD
   	let pjson = require('../package.json');
     const currentVersion = pjson.version;
-=======
   	var pjson = require('../package.json');
->>>>>>> 196286723c357aba898a017c82dcf1a1ab7e178a
   	git().pull(remoteUrl, 'master').then((response) => {
   		if (response) {
         const insertions = _.get(response, 'summary.insertions', 0) > 0;
