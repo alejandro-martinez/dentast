@@ -22,6 +22,9 @@ module.exports = (router) => {
   			const shouldUpdate = insertions || deletions || changes;
         if (shouldUpdate) {
           fs.readFile('../package.json', { "flag": "rs"}, (err, data) => {
+            if (data) {
+              console.log(data);
+            }
             res.json({
               currentVersion,
               remoteVersion: data.version,
