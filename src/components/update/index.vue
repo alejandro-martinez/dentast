@@ -5,12 +5,12 @@
         <div class="row align-items-center">
           <div class="col-12">
             <i class="fa fa-align-justify"></i>
-            <h4>Actualizaciones de sistema</h4>
+            <h4 v-show="updating">Actualizando sistema, espere por favor ...</h4>
+            <h4 v-if="!updating && updated">El sistema ha sido actualizado a la version: {{ version }} ...</h4>
           </div>
           <div class="col-12">
-            <h5>Version de sistema: {{ version }}</h5>
             <br>
-            <h6 v-if="!remoteVersion">Se requiere estar conectado a Internet para actualizar el sistema</h6>
+            <h6 v-if="!remoteVersion">Se requiere estar conectado a Internet para actualizar</h6>
           </div>
         </div>
       </div>
@@ -31,7 +31,6 @@ export default {
   data() {
     return {
       version: '',
-      remoteVersion: '',
       updating: false,
     };
   },
@@ -46,10 +45,11 @@ export default {
   methods: {
     update() {
       this.updating = true;
-      update().then(() => {
+      update().then((data) => {
         this.updating = false;
+        this.version = data.version;
+        this.updated = data.updated;
         this.$snotify.success('El sistema se ha actualizado', { position: 'rightTop' });
-        this.getVersion();
       }, (err) => {
         this.updating = false;
         this.$snotify.error(`Error al actualizar sistema: ${err}`, { position: 'rightTop' });
