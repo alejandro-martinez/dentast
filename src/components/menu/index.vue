@@ -31,7 +31,7 @@
       <li class="nav-item px-3">
           <router-link class="nav-link" :class="{'active':  activeRoute.match('update')}"
               :to="{ name: 'update' }" tag="li">
-              <span class="nav-label">Actualizaciones de sistema</span>
+              <span class="nav-label">Actualizar sistema</span>
           </router-link>
       </li>
     </ul>

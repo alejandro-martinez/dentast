@@ -17,43 +17,15 @@ module.exports = (router) => {
     const currentVersion = pjson.version;
   	git().pull(remoteUrl, 'master').then((response) => {
   		if (response) {
-        const insertions = _.get(response, 'summary.insertions', 0) > 0;
-        const deletions = _.get(response, 'summary.deletions', 0) > 0;
-        const changes = _.get(response, 'summary.changes', 0) > 0;
-  			const shouldUpdate = insertions || deletions || changes;
-        if (!shouldUpdate) {
-          fs.readFile(path.join(__dirname, '../package.json'), { "flag": "rs"}, (err, data) => {
-            if (err) res.status(500).json(err);
-            const json = JSON.parse(data);
-            res.json({
-              currentVersion,
-              remoteVersion: _.get(json, 'version'),
-            });
-          });
-        } else {
-          res.status(200).end();
-        }
+        exec('npm run-script build', (err, stdout, stderr) => {
+          if (err) {
+            return res.status(500).json({ err });
+          } else {
+            res.status(200).end();
+          }
+        });
   		}
-  	}).catch((err) => {
-      console.log(err);
-  		res.json({
-  			currentVersion: pjson.version,
-  		});
-  	})
-  });
-
-
-  router.post('/update', (req, res, next) => {
-			exec('npm run-script build', (err, stdout, stderr) => {
-			  if (err) {
-  				return res.status(500).json({ err });
-  			} else {
-    		  // Mark system as updated
-          const pjson = require('../package.json');
-          const currentVersion = pjson.version;
-          res.status(200).end();
-        }
-      });
+  	});
   });
 
   return router;
