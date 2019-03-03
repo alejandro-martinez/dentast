@@ -24,7 +24,7 @@ module.exports = (router) => {
           // Mark system as it should be updated
           System.findOneAndUpdate({ version: currentVersion }, {
             outdated: true,
-          }, (err, patients) => {
+          }, (err) => {
           if (err) return next(err);
             const newVersion = require('../package.json');
             res.json({
