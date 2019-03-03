@@ -9,7 +9,7 @@ const path = require('path');
 const { exec } = require('child_process');
 const remoteUrl = `https://${USER}:${PASS}@${REPO}`;
 
-const readSystemVersion = () {
+const readSystemVersion = () => {
    let pjson = require('../package.json');
    return pjson.version;
 };
