@@ -32,6 +32,8 @@ module.exports = (router) => {
               remoteVersion: newVersion.version,
             });
           }); 
+        } else {
+          res.status(200).end();
         }
   		}
   	}).catch(() => {
