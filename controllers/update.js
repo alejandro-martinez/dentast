@@ -22,9 +22,9 @@ module.exports = (router) => {
   			const shouldUpdate = insertions || deletions || changes;
         if (shouldUpdate) {
           // Mark system a s it should be updated
-          System.findOneAndUpdate({ version: currentVersion }, {
+          System.update({ version: currentVersion }, {
             outdated: true,
-          }, (err) => {
+          }, { upsert: true },(err) => {
           if (err) return next(err);
             const newVersion = require('../package.json');
             res.json({
