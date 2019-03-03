@@ -38,10 +38,10 @@ module.exports = (router) => {
             }
           });
         } else {
-            res.status(200).json({
-              currentVersion,
-              updated: false,
-            });
+          res.status(200).json({
+            version,
+            updated: false,
+          });
         }
       }
     });
