@@ -13,9 +13,10 @@ module.exports = (router) => {
   	var pjson = require('../package.json');
   	git().fetch(remoteUrl, 'master').then((response) => {
   		if (response) {
+  			console.log(response);
   			res.json({
 	  			currentVersion: pjson.version,
-	  			remoteVersion: response.version,
+	  			remoteVersion: response,
 	  		});	
   		}
   	}).catch(() => {
@@ -28,7 +29,7 @@ module.exports = (router) => {
 
   router.post('/update', (req, res, next) => {
   	git().pull(remoteUrl, 'master').then((response) => {
-  		if (response && response.summary.changes === 0 || response.summary.insertions > 0) {
+  		if (response && response.summary.changes > 0 || response.summary.insertions > 0) {
 			exec('npm run-script build', (err, stdout, stderr) => {
 			  if (err) {
   				return res.status(500).json({ err });
