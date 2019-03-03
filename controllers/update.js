@@ -27,7 +27,7 @@ module.exports = (router) => {
         });
   			res.json({
 	  			currentVersion: pjson.version,
-	  			remoteVersion: newVersion,
+	  			remoteVersion: newVersion.version,
 	  		});	
   		}
   	}).catch(() => {
