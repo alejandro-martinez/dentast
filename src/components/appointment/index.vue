@@ -177,7 +177,7 @@ export default {
       const clone = Object.assign({}, eventData, {
         _id: _.get(eventData, '_id', undefined),
         patient: _.get(this, 'appointment.patient.name', eventData.patient),
-        patientId: this.appointment.patient._id,
+        patientId: _.get(this, 'appointment.patient._id'),
         startTime: eventData.startTime.format('HH:mm'),
         endTime: eventData.endTime.format('HH:mm'),
       });

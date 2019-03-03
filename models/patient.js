@@ -30,11 +30,11 @@ const PatientSchema = new mongoose.Schema({
   }],
   odontogram: [{
     nro: Number,
-    top: Boolean,
-    center: Boolean,
-    bottom: Boolean,
-    right: Boolean,
-    left: Boolean,
+    top: Number,
+    center: Number,
+    bottom: Number,
+    right: Number,
+    left: Number,
     state: Number,
   }],
 });

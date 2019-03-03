@@ -45,7 +45,8 @@
     "vue-search-select": "2.7.0",
     "vue-snotify": "3.2.1",
     "vuejs-datepicker": "1.5.4",
-    "vuex": "^3.0.1"
+    "vuex": "^3.0.1",
+    "webpack-dev-server": "^2.9.1"
   },
   "devDependencies": {
     "autoprefixer": "7.1.2",
@@ -106,7 +107,7 @@
     "vue-template-compiler": "2.5.2",
     "webpack": "3.12.0",
     "webpack-bundle-analyzer": "2.9.0",
-    "webpack-dev-server": ">=3.1.11",
+    "webpack-cli": "^3.2.3",
     "webpack-merge": "4.1.0"
   },
   "engines": {

@@ -2,50 +2,46 @@
     <div class="teeth col p-0"
       @click="setState()"
       v-bind:class="{
-        'no-state': teeth.state == 0 || !teeth.state,
-        'deleted deleted-red': teeth.state == 1,
-        'deleted deleted-blue': teeth.state == 2,
-        'parallel-lines blue': teeth.state == 3
+        'no-selected deleted red': teeth.state == 3,
+        'no-selected deleted blue': teeth.state == 4,
+        'no-selected parallel-lines blue': teeth.state == 5
         }">
       <span> {{ teeth.nro }}</span>
-      <div :class="{'selected': teeth.top }"
-        class="cuadro click" @click="setState('top')"></div>
-      <div :class="{'selected': teeth.left }"
-        class="cuadro izquierdo click" @click="setState('left')"></div>
-      <div :class="{'selected': teeth.bottom }"
-        class="cuadro debajo click" @click="setState('bottom')"></div>
-      <div :class="{'selected': teeth.right }"
-        class="cuadro derecha click" @click="setState('right')"></div>
-      <div :class="{'selected': teeth.center }"
-        class="centro click" @click="setState('center')"></div>
+      <div :class="{
+          'selected': teeth.top,
+          'blue': teeth.top == 1,
+          'red': teeth.top == 2,
+        }"
+        class="dot click" @click="setState('top')"></div>
+      <div :class="{
+        'selected': teeth.left,
+        'blue': teeth.left == 1,
+        'red': teeth.left == 2,
+      }"
+        class="dot left click" @click="setState('left')"></div>
+      <div :class="{
+        'selected': teeth.bottom,
+        'blue': teeth.bottom == 1,
+        'red': teeth.bottom == 2,
+      }"
+        class="dot bottom click" @click="setState('bottom')"></div>
+      <div :class="{
+        'selected': teeth.right,
+        'blue': teeth.right == 1,
+        'red': teeth.right == 2,
+      }"
+        class="dot right click" @click="setState('right')"></div>
+      <div :class="{
+        'selected': teeth.center,
+        'blue': teeth.center == 1,
+        'red': teeth.center == 2,
+      }"
+        class="center click" @click="setState('center')"></div>
     </div>
 </template>
 
 <style scoped>
-  .deleted::after {
-    content: "X";
-    top: 18px;
-    left: 18px;
-    position: absolute;
-    font-size: 2.6em;
-  }
-  .deleted-red::after {
-     color: #f86c6b;
-  }
-  .deleted-blue::after {
-    color: #20a8d8;
-  }
-
-  .parallel-lines::after {
-    position: absolute;
-    color: #20a8d8;
-    content: "=";
-    font-size: 4em;
-    top: 0;
-    left: 14px;
-  }
-
-  .cuadro {
+ .dot {
     background-color: #FFFFFF;
     border: 1px solid #ccc;
     position: relative;
@@ -57,13 +53,51 @@
     -moz-border-radius: 80px 80px 0px 15px;
     border-radius: 80px 80px 0px 15px;
   }
-  .hand .no-state .cuadro:hover {
+
+  .selected.red {
+    background-color: #f86c6b !important;
+  }
+
+  .selected.blue {
+    background-color: rgba(117, 198, 243, 0.4) !important;
+  }
+
+  .no-selected .dot {
+     background-color: #FFFFFF;
+  }
+
+  .deleted::after {
+    content: "X";
+    top: 16px;
+    left: 16px;
+    position: absolute;
+    font-size: 2.6em;
+  }
+
+  .deleted.red::after {
+     color: #f86c6b;
+  }
+
+  .deleted.blue::after {
+    color: #20a8d8;
+  }
+
+  .parallel-lines::after {
+    position: absolute;
+    color: #20a8d8;
+    content: "=";
+    font-size: 4em;
+    top: -6px;
+    left: 7px;
+  }
+
+  .hand .no-state .dot:hover {
     background:rgba(117, 198, 243, 0.4);
   }
   .no-state .selected {
     background: rgba(117, 198, 243, 0.4) !important;
   }
-  .izquierdo {
+  .left {
     top: 7px !important;
     left: 7px !important;
     width: 15px;
@@ -73,7 +107,7 @@
     -o-transform: rotate(270deg);
     transform: rotate(270deg);
   }
-  .debajo {
+  .bottom {
     top: 7px !important;
     left: 19px !important;
     -webkit-transform: rotate(180deg);
@@ -82,7 +116,7 @@
     -o-transform: rotate(180deg);
     transform: rotate(180deg);
   }
-  .derecha {
+  .right {
     top: -18px !important;
     left: 36px !important;
     width: 15px;
@@ -92,7 +126,7 @@
     -o-transform: rotate(90deg);
     transform: rotate(90deg);
   }
-  .centro {
+  .center {
     background: #F3F3F3;
     border: 1px solid #ccc;
     width: 20px;
@@ -101,7 +135,7 @@
     left: 19px;
     position: relative;
   }
-  .hand .no-state .centro:hover{
+  .hand .no-state .center:hover{
     border: 1px solid rgba(117, 198, 243, 0.4);
     background-color:rgba(117, 198, 243, 0.4);
   }
@@ -148,11 +182,11 @@ export default {
     return {
       teeth: {
         nro: null,
-        top: false,
-        bottom: false,
-        right: false,
-        left: false,
-        center: false,
+        top: 0,
+        bottom: 0,
+        right: 0,
+        left: 0,
+        center: 0,
         state: null,
       },
     };
@@ -163,11 +197,12 @@ export default {
   methods: {
     setState(side) {
       const intValue = parseInt(this.currentAction, 10);
-      if (intValue > 0) {
-        this.$set(this.teeth, 'state', this.currentAction);
+      if (!side) {
+        this.teeth.state = intValue;
+      } else if (this.teeth[side] == intValue) {
+        this.teeth[side] = 0;
       } else {
-        this.$set(this.teeth, 'state', undefined);
-        this.teeth[side] = !this.teeth[side];
+        this.teeth[side] = intValue;
       }
       this.$emit('input', this.teeth);
     },

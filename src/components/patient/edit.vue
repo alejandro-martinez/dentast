@@ -112,22 +112,27 @@
                 </div>
                 <div class="col-8 odontogram-options text-right">
                   <label class="radio-inline">
-                    <input type="radio" value="0" name="optradio"
-                      checked v-model="currentAction">
-                      <span class="hand">☝</span>
-                  </label>
-                  <label class="radio-inline">
                     <input type="radio" value="1" name="optradio"
                       checked v-model="currentAction">
-                      <span class="deleted red">X</span>
+                      <div class="teeth-state-selector blue"></div>
                   </label>
                   <label class="radio-inline">
                     <input type="radio" name="optradio" value="2"
                        v-model="currentAction">
+                       <div class="teeth-state-selector red"></div>
+                  </label>
+                  <label class="radio-inline">
+                    <input type="radio" value="3" name="optradio"
+                      checked v-model="currentAction">
+                      <span class="deleted red">X</span>
+                  </label>
+                  <label class="radio-inline">
+                    <input type="radio" name="optradio" value="4"
+                       v-model="currentAction">
                        <span class="deleted blue">X</span>
                   </label>
                   <label class="radio-inline">
-                    <input type="radio" name="optradio" value="3"
+                    <input type="radio" name="optradio" value="5"
                        v-model="currentAction">
                        <span class="parallel-lines blue">=</span>
                   </label>
@@ -186,10 +191,24 @@ span.deleted {
   position: relative;
 }
 
+.teeth-state-selector {
+  width: 20px;
+  height: 20px;
+  display: inline-block;
+}
+
+.teeth-state-selector.red {
+  background: #f86c6b;
+}
+
+.teeth-state-selector.blue {
+  background: rgba(117, 198, 243, 0.4) !important;
+}
+
 .odontogram-options .parallel-lines {
   font-size: 3em !important;
   position: absolute;
-  top: -25px;
+  top: -30px;
   left: 17px;
 }
 
