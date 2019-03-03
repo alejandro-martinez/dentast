@@ -21,16 +21,10 @@ module.exports = (router) => {
         const changes = _.get(response, 'summary.changes', 0) > 0;
   			const shouldUpdate = insertions || deletions || changes;
         if (shouldUpdate) {
-          // Mark system a s it should be updated
-          System.update({ version: currentVersion }, {
-            $set: { outdated: true },
-          }, { upsert: true },(err) => {
-          if (err) return next(err);
-            const newVersion = require('../package.json');
-            res.json({
-              currentVersion,
-              remoteVersion: newVersion.version,
-            });
+          const newVersion = require('../package.json');
+          res.json({
+            currentVersion,
+            remoteVersion: newVersion.version,
           }); 
         } else {
           res.status(200).end();
