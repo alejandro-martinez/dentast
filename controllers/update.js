@@ -6,6 +6,7 @@ const REPO = 'github.com/alejandro-martinez/dentast.git';
 
 const fs = require('fs');
 const git = require('simple-git/promise');
+const path = require('path');
 const { exec } = require('child_process');
 const remoteUrl = `https://${USER}:${PASS}@${REPO}`;
 
@@ -20,21 +21,21 @@ module.exports = (router) => {
         const deletions = _.get(response, 'summary.deletions', 0) > 0;
         const changes = _.get(response, 'summary.changes', 0) > 0;
   			const shouldUpdate = insertions || deletions || changes;
-        if (shouldUpdate) {
-          fs.readFile('../package.json', { "flag": "rs"}, (err, data) => {
-            if (data) {
-              console.log(data);
-            }
+        if (!shouldUpdate) {
+          fs.readFile(path.join(__dirname, '../package.json'), { "flag": "rs"}, (err, data) => {
+            if (err) res.status(500).json(err);
+            const json = JSON.parse(data);
             res.json({
               currentVersion,
-              remoteVersion: data.version,
+              remoteVersion: _.get(json, 'version'),
             });
           });
         } else {
           res.status(200).end();
         }
   		}
-  	}).catch(() => {
+  	}).catch((err) => {
+      console.log(err);
   		res.json({
   			currentVersion: pjson.version,
   		});
