@@ -6,6 +6,7 @@
           <div class="col-12">
             <i class="fa fa-align-justify"></i>
             <h4 v-if="!updating"> Version actual: {{ version }} </h4>
+            <br>
             <h4 v-show="updating">Actualizando sistema, espere por favor ...</h4>
             <h4 v-show="!updated && !updating">No hay actualizaciones disponibles...</h4>
             <h4 v-if="!updating && updated">El sistema ha sido actualizado a la version: {{ version }}. Presione f5 para completar la operacion.</h4>
