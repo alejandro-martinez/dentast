@@ -44,7 +44,12 @@ module.exports = (router) => {
           });
         }
       }
-    });
+    }).catch(() => {
+        res.status(200).json({
+          version,
+          updated: false,
+        });
+    })
   });
 
   return router;
