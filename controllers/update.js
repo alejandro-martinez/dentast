@@ -9,11 +9,15 @@ const path = require('path');
 const { exec } = require('child_process');
 const remoteUrl = `https://${USER}:${PASS}@${REPO}`;
 
+const readSystemVersion = () {
+   let pjson = require('../package.json');
+   return pjson.version;
+};
+
 module.exports = (router) => {
 
   router.post('/update', (req, res, next) => {
-    let pjson = require('../package.json');
-    const currentVersion = pjson.version;
+    let version = readSystemVersion();
     git().pull(remoteUrl, 'master').then((response) => {
       if (response) {
 
@@ -26,11 +30,10 @@ module.exports = (router) => {
             if (err) {
               return res.status(500).json({ err });
             } else {
-              let pjson = require('../package.json');
-               currentVersion = pjson.version;
+              version = readSystemVersion();
               res.status(200).json({
                 updated: true,
-                currentVersion,
+                version,
               });
             }
           });
