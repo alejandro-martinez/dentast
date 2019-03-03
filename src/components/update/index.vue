@@ -13,7 +13,7 @@
           </div>
           <div class="col-12">
             <br>
-            <h6 v-if="!remoteVersion">Se requiere estar conectado a Internet para actualizar</h6>
+            <h6 v-if="!updating">Se requiere estar conectado a Internet para actualizar</h6>
           </div>
         </div>
       </div>
@@ -53,8 +53,10 @@ export default {
         this.updating = false;
         this.version = data.version;
         this.updated = data.updated;
-        this.$snotify.success('El sistema se ha actualizado', { position: 'rightTop' });
-      }, (err) => {
+        if (data.updated) {
+          this.$snotify.success('El sistema se ha actualizado', { position: 'rightTop' });
+        }
+        }, (err) => {
         this.updating = false;
         this.$snotify.error(`Error al actualizar sistema: ${err}`, { position: 'rightTop' });
       });
