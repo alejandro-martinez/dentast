@@ -14,21 +14,25 @@ module.exports = (router) => {
   router.get('/version', (req, res, next) => {
   	const pjson = require('../package.json');
     const currentVersion = pjson.version;
-  	git().pull(remoteUrl, 'master').then((response) => {
+  	git().fetch(remoteUrl, 'master').then((response) => {
   		if (response) {
         const insertions = _.get(response, 'summary.insertions', 0) > 0;
         const deletions = _.get(response, 'summary.deletions', 0) > 0;
         const changes = _.get(response, 'summary.changes', 0) > 0;
   			const shouldUpdate = insertions || deletions || changes;
-        const newVersion = require('../package.json');
-        // Mark system as it should be updated
-        System.findOneAndUpdate({ version: currentVersion }, {
-          outdated: true,
-        });
-  			res.json({
-	  			currentVersion: pjson.version,
-	  			remoteVersion: newVersion.version,
-	  		});	
+        if (shouldUpdate) {
+          // Mark system as it should be updated
+          System.findOneAndUpdate({ version: currentVersion }, {
+            outdated: true,
+          }, (err, patients) => {
+          if (err) return next(err);
+            const newVersion = require('../package.json');
+            res.json({
+              currentVersion,
+              remoteVersion: newVersion.version,
+            });
+          }); 
+        }
   		}
   	}).catch(() => {
   		res.json({
