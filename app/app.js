@@ -9,7 +9,7 @@ const cors = require('cors');
 
 mongoose.Promise = require('bluebird');
 
-mongoose.connect('mongodb://localhost/dentast', {
+mongoose.connect('localhost', 'dentast', {
   promiseLibrary: bluebird,
   useMongoClient: true,
 })
@@ -36,5 +36,6 @@ require('../controllers/auth')(app);
 require('../controllers/medical-coverage')(app);
 require('../controllers/appointment')(app);
 require('../controllers/backup')(app);
+require('../controllers/update')(app);
 
 module.exports = app;

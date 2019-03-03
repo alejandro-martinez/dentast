@@ -6,6 +6,7 @@ import MedicalCoverage from '@/components/medical-coverage';
 import MedicalCoverageEdit from '@/components/medical-coverage/edit';
 import Appointment from '@/components/appointment';
 import Backup from '@/components/backup';
+import Update from '@/components/update';
 import NProgress from 'nprogress';
 import { store } from '../store';
 import '../../node_modules/nprogress/nprogress.css';
@@ -55,6 +56,11 @@ export const router = new Router({
       path: '/backup',
       name: 'backup',
       component: Backup,
+    },
+    {
+      path: '/update',
+      name: 'update',
+      component: Update,
     },
     {
       path: '/logout',

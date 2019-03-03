@@ -28,6 +28,12 @@
               <span class="nav-label">Copias de seguridad</span>
           </router-link>
       </li>
+      <li class="nav-item px-3">
+          <router-link class="nav-link" :class="{'active':  activeRoute.match('update')}"
+              :to="{ name: 'update' }" tag="li">
+              <span class="nav-label">Actualizaciones de sistema</span>
+          </router-link>
+      </li>
     </ul>
     <div class="row mr-2">
       <div class="col-12">

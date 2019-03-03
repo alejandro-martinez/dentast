@@ -1,5 +1,5 @@
 {
-  "name": "sergiocitate",
+  "name": "Consultorio",
   "version": "1.0.0",
   "description": "Sistema para clinica odontologica",
   "author": "Alejandro Martinez <alejandromartinezap@gmail.com>",
@@ -7,6 +7,7 @@
   "scripts": {
     "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
     "start": "npm run build && node ./bin/www",
+    "justRun": "node ./bin/www",
     "unit": "cross-env BABEL_ENV=test karma start test/unit/karma.conf.js --single-run",
     "e2e": "node test/e2e/runner.js",
     "test": "npm run unit && npm run e2e",
@@ -32,9 +33,11 @@
     "md5": "2.2.1",
     "moment": "2.22.2",
     "mongoose": "4.7.7",
+    "npm": "^6.8.0",
     "nprogress": "0.2.0",
     "popper.js": "1.14.5",
     "serve-favicon": "2.5.0",
+    "simple-git": "^1.107.0",
     "unzip": "0.1.11",
     "v-calendar-scheduler": "0.7.4",
     "vee-validate": "2.1.3",
