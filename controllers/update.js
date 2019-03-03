@@ -39,26 +39,16 @@ module.exports = (router) => {
 
 
   router.post('/update', (req, res, next) => {
-  	git().pull(remoteUrl, 'master').then((response) => {
-  		if (response && response.summary.changes > 0 || response.summary.insertions > 0) {
 			exec('npm run-script build', (err, stdout, stderr) => {
 			  if (err) {
   				return res.status(500).json({ err });
-  			  } else {
+  			} else {
     		  // Mark system as updated
           const pjson = require('../package.json');
           const currentVersion = pjson.version;
-    
-          System.findOneAndUpdate({ version: currentVersion }, {
-            outdated: false,
-          });
-            res.status(200).end();
-  			  }
-			});
-  		} else {
-  			res.status(200).end();
-  		}
-  	});
+          res.status(200).end();
+        }
+      });
   });
 
   return router;
