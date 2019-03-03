@@ -6,7 +6,6 @@ const REPO = 'github.com/alejandro-martinez/dentast.git';
 
 const fs = require('fs');
 const git = require('simple-git/promise');
-const Promise = require('promise');
 const { exec } = require('child_process');
 const remoteUrl = `https://${USER}:${PASS}@${REPO}`;
 
@@ -22,11 +21,10 @@ module.exports = (router) => {
         const changes = _.get(response, 'summary.changes', 0) > 0;
   			const shouldUpdate = insertions || deletions || changes;
         if (shouldUpdate) {
-          Promise.delay(2000).then(() => {
-            const packageJson = fs.readFileSync('../package.json');
+          fs.readFile('../package.json', { "flag": "rs"}, (err, data) => {
             res.json({
               currentVersion,
-              remoteVersion: packageJson.version,
+              remoteVersion: data.version,
             });
           });
         } else {
