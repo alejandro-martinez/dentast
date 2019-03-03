@@ -12,7 +12,7 @@ const remoteUrl = `https://${USER}:${PASS}@${REPO}`;
 
 module.exports = (router) => {
 
-  router.get('/version', (req, res, next) => {
+  router.post('/update', (req, res, next) => {
   	const pjson = require('../package.json');
     const currentVersion = pjson.version;
   	git().pull(remoteUrl, 'master').then((response) => {
