@@ -32,6 +32,7 @@ export default {
     return {
       version: '',
       updating: false,
+      updated: null,
     };
   },
   created() {
