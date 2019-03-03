@@ -156,13 +156,16 @@
             openEventDialog(data, previousDialogData) {
                 if ( !this.disableDialog ) {
                     const { fields, ...config } = this.eventDialogConfig;
-                    if (data._id) {
+                    if (data.patient) {
                       // upon opening event detail, fill values for fields
                       fields.forEach((f) => {
                         if (data[f.name]) {
                           f.value = data[f.name];
                         }
                       });
+                    } else if (!data.fields) {
+                        fields[0].patient = '';
+                        this.eventDialogConfig.fields[0].value = '';
                     }
                     data = previousDialogData || data;
                     if ( data instanceof Date ) {
@@ -316,7 +319,6 @@
             },
             eventDialogConfig: {
               handler(val) {
-                console.log('val', val);
                 // Update view with custom input value. Close and reopen
                 if (this.dialogInstance) {
                   this.dialogInstance.close();

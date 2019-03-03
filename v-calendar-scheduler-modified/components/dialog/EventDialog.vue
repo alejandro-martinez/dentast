@@ -11,10 +11,10 @@
                     <section class="v-cal-dialog-card__body">
                         <div class="v-cal-fields">
                             <template v-for="field, index in fields">
-                                <event-dialog-input v-model="event[field.name]" :key="field.name + '-' + index" :field="field" v-if="!field.fields"/>
+                                <event-dialog-input :autocomplete="no" v-model="event[field.name]" :key="field.name + '-' + index" :field="field" v-if="!field.fields"/>
                                 <div class="v-cal-input-group" v-else>
                                     <label v-if="field.label">{{ field.label }}</label>
-                                    <event-dialog-input v-model="event[subfield.name]" :key="subfield.name + '-' + index" :field="subfield" v-for="subfield, index in field.fields"/>
+                                    <event-dialog-input :autocomplete="no" v-model="event[subfield.name]" :key="subfield.name + '-' + index" :field="subfield" v-for="subfield, index in field.fields"/>
                                 </div>
                             </template>
                         </div>
@@ -93,6 +93,7 @@
             },
             close() {
                 this.isActive = false;
+                this.fields[0].value = '';
                 // Timeout for the animation complete before destroying
                 setTimeout(() => {
                     this.$destroy();
