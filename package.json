@@ -1,7 +1,7 @@
 {
   "name": "Consultorio",
   "version": "1.0.1",
-  "description": "Sistema para clinica odontologica",
+  "description": "Sistema clinica odontologica",
   "author": "Alejandro Martinez <alejandromartinezap@gmail.com>",
   "private": true,
   "scripts": {
