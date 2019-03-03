@@ -45,7 +45,14 @@ module.exports = (router) => {
 			  if (err) {
   				return res.status(500).json({ err });
   			  } else {
-  				res.status(200).end();
+    		  // Mark system as updated
+          const pjson = require('../package.json');
+          const currentVersion = pjson.version;
+    
+          Patient.findOneAndUpdate({ version: currentVersion }, {
+            outdated: false,
+          });
+            res.status(200).end();
   			  }
 			});
   		} else {
