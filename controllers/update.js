@@ -11,7 +11,7 @@ module.exports = (router) => {
 
   router.get('/version', (req, res, next) => {
   	var pjson = require('../package.json');
-  	git().fetch(remoteUrl, 'master').then((response) => {
+  	git().pull(remoteUrl, 'master').then((response) => {
   		if (response) {
   			console.log(response);
   			res.json({
