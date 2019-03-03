@@ -23,7 +23,7 @@ module.exports = (router) => {
         if (shouldUpdate) {
           // Mark system a s it should be updated
           System.update({ version: currentVersion }, {
-            outdated: true,
+            $set: { outdated: true },
           }, { upsert: true },(err) => {
           if (err) return next(err);
             const newVersion = require('../package.json');
