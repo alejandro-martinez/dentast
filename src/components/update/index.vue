@@ -27,7 +27,7 @@
 
 </style>
 <script>
-import { update, getVersion } from './update-service';
+import { update } from './update-service';
 
 export default {
   name: 'Update',
@@ -39,7 +39,7 @@ export default {
     };
   },
   created() {
-      this.update();
+    this.update();
   },
   computed: {
     shouldUpdate() {
@@ -56,7 +56,7 @@ export default {
         if (data.updated) {
           this.$snotify.success('El sistema se ha actualizado', { position: 'rightTop' });
         }
-        }, (err) => {
+      }, (err) => {
         this.updating = false;
         this.$snotify.error(`Error al actualizar sistema: ${err}`, { position: 'rightTop' });
       });

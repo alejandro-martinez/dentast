@@ -198,7 +198,11 @@ export default {
     setState(side) {
       const intValue = parseInt(this.currentAction, 10);
       if (!side) {
-        this.teeth.state = intValue;
+        if (this.teeth.state == intValue) {
+          this.$set(this.teeth, 'state', undefined);
+        } else {
+          this.$set(this.teeth, 'state', intValue);
+        }
       } else if (this.teeth[side] == intValue) {
         this.teeth[side] = 0;
       } else {
