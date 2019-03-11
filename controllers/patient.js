@@ -49,9 +49,9 @@ module.exports = (router) => {
     req.body.address = req.body.address.replace('`', '');
     req.body.name = req.body.name.replace('`', '');
     Patient.findOneAndUpdate({ _id: req.params.id }, req.body,
-      { runValidators: true },
       (err, patient) => {
         if (err) {
+          console.log(err);
           res.status(500);
           res.send({ err });
         } else {

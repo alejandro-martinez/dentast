@@ -160,6 +160,13 @@ export default {
   watch: {
     value(value) {
       this.$set(this, 'records', value);
+      this.record = {
+        ticketNum: null,
+        teethNum: null,
+        side: null,
+        code: null,
+        date: moment(),
+      };
     },
   },
   created() {
@@ -187,6 +194,13 @@ export default {
           if (!this.record._id) {
             this.records.push(this.record);
           }
+          this.record = {
+            ticketNum: null,
+            teethNum: null,
+            side: null,
+            code: null,
+            date: moment(),
+          };
           this.$emit('save-patient');
         }
       });
