@@ -12,7 +12,7 @@ const PatientSchema = new mongoose.Schema({
   birthdate: Date,
   sex: String,
   notes: String,
-  afiliateNum: Number,
+  afiliateNum: String,
   medicalCoverage: {
     type: mongoose.SchemaTypes.ObjectId,
     ref: 'MedicalCoverage',
