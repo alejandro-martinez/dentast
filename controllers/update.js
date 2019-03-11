@@ -16,10 +16,12 @@ module.exports = (router) => {
           if (err) {
             return res.status(500).json({ err });
           }
-          const pjson2 = JSON.parse(fs.readFileSync('./package.json'));
-          res.status(200).json({
-            updated: true,
-            version: pjson2.version,
+          return fs.readFile('./package.json', (pjson2) => {
+            const packageJson = JSON.parse(pjson2);
+            res.status(200).json({
+              updated: true,
+              version: packageJson.version,
+            });
           });
         });
       }
