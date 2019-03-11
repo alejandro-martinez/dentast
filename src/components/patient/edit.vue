@@ -260,12 +260,14 @@ export default {
   },
   created() {
     const patientId = this.$route.params.id;
+    console.log(this.$route.params);
     getAllMedicalCoverages().then((medicalCoverageList) => {
       this.medicalCoverageList = medicalCoverageList;
     });
-    if (patientId && patientId !== 'create') {
+    if (patientId && patientId.length > 20) {
       this.refreshPatient(patientId);
     } else {
+      this.patient = defaultSchema;
       const defaultOdontontogram = this.buildDefaultOdontogram();
       this.$set(this.patient, 'odontogram', defaultOdontontogram);
     }

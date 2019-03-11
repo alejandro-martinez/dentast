@@ -34,18 +34,20 @@ module.exports = (router) => {
 
   /* SAVE Patient */
   router.post('/patient', (req, res) => {
-    Patient.create(req.body, (err, post) => {
+    Patient.create(req.body, (err, patient) => {
+      req.body.address = req.body.address.replace('`', '');
+      req.body.name = req.body.name.replace('`', '');
       if (err) {
-        logger.error('loading an array', [1,2,3], 'now!');
-        res.status(500);
-        return res.json('Error al crear paciente');
+        res.status(500).json({ err: `Error al crear paciente: ${JSON.stringify(err)}` });
       }
-      return res.json(post);
+      return res.json(patient);
     });
   });
 
   /* UPDATE Patient */
   router.put('/patient/:id', (req, res) => {
+    req.body.address = req.body.address.replace('`', '');
+    req.body.name = req.body.name.replace('`', '');
     Patient.findOneAndUpdate({ _id: req.params.id }, req.body,
       { runValidators: true },
       (err, patient) => {
