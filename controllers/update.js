@@ -18,6 +18,7 @@ module.exports = (router) => {
             return res.status(500).json({ err });
           }
           return fs.readFile('./package.json', (pjson2) => {
+            console.log(pjson2);
             const packageJson = JSON.parse(pjson2);
             res.status(200).json({
               updated: true,
@@ -26,7 +27,7 @@ module.exports = (router) => {
           });
         });
       }
-      res.status(200).json({
+      return res.status(200).json({
         updated: false,
         version,
       });
