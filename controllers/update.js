@@ -11,7 +11,6 @@ module.exports = (router) => {
   router.post('/update', (req, res) => {
     const version = pjson.version;
     git().pull(remoteUrl, 'master').then((response) => {
-      console.log('pulling', response);
       if (response && response.summary.changes > 1) {
         console.log('about to update');
         return exec('npm run-script build', (err) => {
@@ -26,12 +25,11 @@ module.exports = (router) => {
             });
           });
         });
-      } else {
-        res.status(200).json({
-          updated: false,
-          version,
-        });
       }
+      res.status(200).json({
+        updated: false,
+        version,
+      });
     }).catch(() => {
       res.status(200).json({
         version,
