@@ -54,6 +54,7 @@ export default {
         this.version = data.version;
         this.updated = data.updated;
         if (data.updated) {
+          this.updating = false;
           this.$snotify.success('El sistema se ha actualizado', { position: 'rightTop' });
         }
       }, (err) => {
